@@ -52,25 +52,25 @@
     },
     {
       "product": "Drive",
-      "color": "blue",
+      "color": "green",
       "useCase": "Ask questions across every file in a project folder without opening any of them.",
       "icon": "https://www.gstatic.com/marketing-cms/assets/images/53/ed/91a2405a4aa28e40fc8c4d5d934d/logo-drive-2026-color-2x-web-64dp.webp=s96-fcrop64=1,00000000ffffffff-rw"
     },
     {
       "product": "Calendar",
-      "color": "green",
+      "color": "blue",
       "useCase": "Plan an exam week around classes, meetings, and study blocks.",
       "icon": "https://www.gstatic.com/marketing-cms/assets/images/66/89/f778a1de49ea98641f402886ce6a/logo-calendar-2026-color-2x-web-64dp.webp=s96-fcrop64=1,00000000ffffffff-rw"
     },
     {
       "product": "Meet",
-      "color": "red",
+      "color": "yellow",
       "useCase": "Get auto-generated notes and action items from team meetings.",
       "icon": "https://www.gstatic.com/marketing-cms/assets/images/16/14/b7dcd9b94b55a02ae3034932200c/logo-meet-2026-color-2x-web-64dp.webp=s96-fcrop64=1,00000000ffffffff-rw"
     },
     {
       "product": "Gemini Notebook",
-      "color": "yellow",
+      "color": "blue",
       "useCase": "Load lecture slides and readings, then generate study guides, quizzes, and Audio Overviews.",
       "icon": "assets/gemini-notebook.png"
     },
