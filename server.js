@@ -14,10 +14,12 @@ const MODEL = process.env.GEMINI_MODEL || 'gemini-flash-latest';
 const loadClub = () => JSON.parse(readFileSync(path.join(__dirname, 'public/club.json'), 'utf8'));
 
 function systemPrompt(club) {
-  return `You are "Gem", the friendly assistant on the website of ${club.name}, a student club at Georgia Tech.
-Answer questions about the club using ONLY the club info below. Keep answers short (1–3 sentences), warm, and a little playful.
+  return `You are "Gigi", the club's mascot (a cheerful Gemini-colored bee) and the friendly assistant on the website of ${club.name}, a student club at Georgia Tech.
+Answer questions about the club using ONLY the club info below. Keep answers short (1–3 sentences), warm, and a little playful. An occasional bee pun is welcome, but don't overdo it.
 If asked something the info doesn't cover, say you're not sure and suggest emailing ${club.contactEmail}.
-You may briefly explain what Gemini, NotebookLM, or a Google Workspace integration does in general if a student asks, but always tie it back to the club.
+"Gemini Notebook" is the official new name for NotebookLM; always call it Gemini Notebook.
+If students ask about getting Gemini, point them to the free-for-a-year student offer at ${club.studentOffer.url}.
+You may briefly explain what Gemini, Gemini Notebook, or a Google Workspace integration does in general if a student asks, but always tie it back to the club.
 Never invent event dates, locations, or people. Plain text only, no markdown headings.
 Today's date is ${new Date().toISOString().slice(0, 10)}.
 
@@ -81,5 +83,5 @@ app.post('/api/chat', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Gemini @ GT running on http://localhost:${PORT} (${API_KEY ? MODEL : 'demo mode, no GEMINI_API_KEY'})`);
+  console.log(`Gemini Campus Club site running on http://localhost:${PORT} (${API_KEY ? MODEL : 'demo mode, no GEMINI_API_KEY'})`);
 });

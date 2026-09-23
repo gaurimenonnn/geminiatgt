@@ -1,13 +1,12 @@
 {
-  "name": "Gemini at Georgia Tech",
-  "short": "Gemini @ GT",
+  "name": "Gemini Campus Club @ Georgia Tech",
+  "short": "Gemini Campus Club",
   "tagline": "Hands-on workshops for using Gemini across the tools you already live in.",
-  "mission": "We're a campus club run by Georgia Tech's Google Student Ambassadors. We host hands-on workshops and events that show students how to use Gemini, NotebookLM, and Gemini's integrations across Google Workspace for real student work: studying, research, projects, clubs, and recruiting.",
+  "mission": "We're the Gemini Campus Club at Georgia Tech, run by GT's Google Student Ambassadors. We host hands-on workshops and events that show students how to use Gemini, Gemini Notebook, and Gemini's integrations across Google Workspace for real student work: studying, research, projects, clubs, and recruiting.",
   "membership": "Membership is free and open to every Georgia Tech student, whatever your major or year. You don't need any coding experience, just a laptop and a Google account. Join the mailing list to hear about events.",
   "joinUrl": "#join",
   "contactEmail": "your-club-email@example.com",
   "instagram": "https://instagram.com/",
-
   "leads": [
     {
       "name": "Gauri Menon",
@@ -26,20 +25,58 @@
       "accent": "red"
     }
   ],
-
   "integrations": [
-    { "product": "Gmail", "color": "red", "useCase": "Summarize a 40-email group-project thread and draft a reply that assigns next steps." },
-    { "product": "Docs", "color": "blue", "useCase": "Turn messy lab notes into a structured report outline, then tighten the prose." },
-    { "product": "Sheets", "color": "green", "useCase": "Build a club budget tracker and ask for formulas in plain English." },
-    { "product": "Slides", "color": "yellow", "useCase": "Generate a first-draft pitch deck and on-brand images for a hackathon demo." },
-    { "product": "Drive", "color": "blue", "useCase": "Ask questions across every file in a project folder without opening any of them." },
-    { "product": "Calendar", "color": "green", "useCase": "Plan an exam week around classes, meetings, and study blocks." },
-    { "product": "Meet", "color": "red", "useCase": "Get auto-generated notes and action items from team meetings." },
-    { "product": "NotebookLM", "color": "yellow", "useCase": "Load lecture slides and readings, then generate study guides, quizzes, and Audio Overviews." },
-    { "product": "AI Studio", "color": "blue", "useCase": "Prototype an app with the Gemini API in an afternoon, no setup required." },
-    { "product": "Colab", "color": "yellow", "useCase": "Get code explained, debugged, and extended inside your data-science notebooks." }
+    {
+      "product": "Gmail",
+      "color": "red",
+      "useCase": "Summarize a 40-email group-project thread and draft a reply that assigns next steps."
+    },
+    {
+      "product": "Docs",
+      "color": "blue",
+      "useCase": "Turn messy lab notes into a structured report outline, then tighten the prose."
+    },
+    {
+      "product": "Sheets",
+      "color": "green",
+      "useCase": "Build a club budget tracker and ask for formulas in plain English."
+    },
+    {
+      "product": "Slides",
+      "color": "yellow",
+      "useCase": "Generate a first-draft pitch deck and on-brand images for a hackathon demo."
+    },
+    {
+      "product": "Drive",
+      "color": "blue",
+      "useCase": "Ask questions across every file in a project folder without opening any of them."
+    },
+    {
+      "product": "Calendar",
+      "color": "green",
+      "useCase": "Plan an exam week around classes, meetings, and study blocks."
+    },
+    {
+      "product": "Meet",
+      "color": "red",
+      "useCase": "Get auto-generated notes and action items from team meetings."
+    },
+    {
+      "product": "Gemini Notebook",
+      "color": "yellow",
+      "useCase": "Load lecture slides and readings, then generate study guides, quizzes, and Audio Overviews."
+    },
+    {
+      "product": "AI Studio",
+      "color": "blue",
+      "useCase": "Prototype an app with the Gemini API in an afternoon, no setup required."
+    },
+    {
+      "product": "Colab",
+      "color": "yellow",
+      "useCase": "Get code explained, debugged, and extended inside your data-science notebooks."
+    }
   ],
-
   "events": [
     {
       "title": "Kickoff: Gemini 101",
@@ -50,7 +87,7 @@
       "description": "A tour of the Gemini app, Gems, Deep Research, and Canvas, plus free pizza. Bring a laptop."
     },
     {
-      "title": "Study Smarter with NotebookLM",
+      "title": "Study Smarter with Gemini Notebook",
       "date": "2026-10-15",
       "time": "6:00 – 7:30 PM",
       "location": "Location TBD",
@@ -74,12 +111,36 @@
       "description": "Go from idea to a working prototype with Google AI Studio and the Gemini API. Mentors on hand, prizes for best demos."
     }
   ],
-
   "faq": [
-    { "q": "Do I need to know how to code?", "a": "Nope. Most workshops use Gemini inside Google apps you already use. Build nights are the only coding-focused events, and beginners are welcome there too." },
-    { "q": "What should I bring?", "a": "A laptop and a Google account. A personal Gmail works; some features need a Google AI Pro plan, and we'll show you how to get the free student offer if one is available." },
-    { "q": "How much does it cost?", "a": "Nothing. Membership and every event are free." },
-    { "q": "How often do you meet?", "a": "About every two weeks during the semester. Check the Events section for exact dates." },
-    { "q": "Can my org partner with you?", "a": "Yes! We love running custom workshops for other clubs, classes, and teams. Email us." }
-  ]
+    {
+      "q": "Do I need to know how to code?",
+      "a": "Nope. Most workshops use Gemini inside Google apps you already use. Build nights are the only coding-focused events, and beginners are welcome there too."
+    },
+    {
+      "q": "What should I bring?",
+      "a": "A laptop and a Google account. Some features need Google AI Pro, which eligible students can get free for a year at gemini.google/students. We'll help you set it up."
+    },
+    {
+      "q": "Who is Gigi?",
+      "a": "Gigi is our mascot, a Gemini-colored bee (and a mascot for Gemini in general). Gigi also runs the chat assistant on this site."
+    },
+    {
+      "q": "How much does it cost?",
+      "a": "Nothing. Membership and every event are free."
+    },
+    {
+      "q": "How often do you meet?",
+      "a": "About every two weeks during the semester. Check the Events section for exact dates."
+    },
+    {
+      "q": "Can my org partner with you?",
+      "a": "Yes! We love running custom workshops for other clubs, classes, and teams. Email us."
+    }
+  ],
+  "mascot": "Gigi is the club's mascot (and a mascot for Gemini in general): a cheerful Gemini-colored bee.",
+  "studentOffer": {
+    "headline": "Get Gemini free for a year",
+    "description": "Eligible students can get Google's AI Pro plan free for a year, with Google's most capable Gemini models and Gemini built into the apps you already use. Check eligibility and sign up on Google's student page.",
+    "url": "https://gemini.google/students/"
+  }
 }

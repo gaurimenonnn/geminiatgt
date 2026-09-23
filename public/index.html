@@ -3,35 +3,50 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gemini @ Georgia Tech</title>
-  <meta name="description" content="Georgia Tech's Gemini campus club: hands-on workshops for Gemini, NotebookLM, and Gemini across Google Workspace." />
-  <link rel="icon" href="assets/sparkle.svg" type="image/svg+xml" />
+  <title>Gemini Campus Club @ Georgia Tech</title>
+  <meta name="description" content="Gemini Campus Club @ Georgia Tech: hands-on workshops for Gemini, Gemini Notebook, and Gemini across Google Workspace." />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="icon" href="assets/favicon.png" type="image/png" />
+  <link rel="preload" href="assets/gemini-spark.png" as="image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <!-- Decide before first paint whether the intro plays, so the page never flashes underneath it -->
+  <script>
+    try {
+      if (!sessionStorage.getItem('gcc-intro') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('intro-on', 'intro-lock');
+      }
+    } catch {}
+  </script>
 </head>
 <body>
-  <!-- Reusable Gemini-style four-point sparkle -->
+  <!-- STARTUP INTRO: Gemini spark appears, spins, then the overlay fades to reveal the page -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <img class="intro-spark" src="assets/gemini-spark.png" alt="" />
+  </div>
+  <script>
+    if (document.documentElement.classList.contains('intro-on')) {
+      setTimeout(() => {
+        document.documentElement.classList.remove('intro-lock');
+        try { sessionStorage.setItem('gcc-intro', '1'); } catch {} // play once per browser session
+      }, 2600);
+    }
+  </script>
+
+  <!-- White four-point sparkle for use on colored backgrounds -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <linearGradient id="gem-grad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#4285F4" />
-        <stop offset=".55" stop-color="#9B72CB" />
-        <stop offset="1" stop-color="#D96570" />
-      </linearGradient>
-      <symbol id="sparkle" viewBox="0 0 24 24">
-        <path d="M12 0C12.6 6.4 17.6 11.4 24 12 17.6 12.6 12.6 17.6 12 24 11.4 17.6 6.4 12.6 0 12 6.4 11.4 11.4 6.4 12 0Z" />
-      </symbol>
-    </defs>
+    <symbol id="sparkle" viewBox="0 0 24 24">
+      <path d="M12 0C12.6 6.4 17.6 11.4 24 12 17.6 12.6 12.6 17.6 12 24 11.4 17.6 6.4 12.6 0 12 6.4 11.4 11.4 6.4 12 0Z" />
+    </symbol>
   </svg>
 
   <header class="nav" id="top">
-    <a href="#top" class="brand" aria-label="Gemini at Georgia Tech home">
-      <!-- LOGO: swap this svg for <img src="assets/logo.svg" alt="Gemini @ GT"> once the logo is ready -->
-      <svg class="brand-mark"><use href="#sparkle" fill="url(#gem-grad)" /></svg>
-      <span>Gemini <b>@</b> GT</span>
+    <a href="#top" class="brand" aria-label="Gemini Campus Club at Georgia Tech, home">
+      <img class="brand-logo" src="assets/gigi-buzz.png" alt="" />
+      <span class="brand-name">Gemini Campus Club <b>@</b> Georgia Tech</span>
     </a>
     <nav class="nav-links" aria-label="Sections">
       <a href="#about">About</a>
@@ -48,26 +63,26 @@
     <section class="hero">
       <div class="aura" aria-hidden="true"></div>
       <div class="grid-bg" aria-hidden="true"></div>
-      <svg class="hero-spark" aria-hidden="true"><use href="#sparkle" fill="url(#gem-grad)" /></svg>
+      <img class="hero-spark" src="assets/gemini-spark.png" alt="" aria-hidden="true" />
 
       <div class="hero-inner">
-        <p class="eyebrow">
+        <a class="eyebrow" href="#free-gemini">
           <span class="dots"><i class="b"></i><i class="r"></i><i class="y"></i><i class="g"></i></span>
-          Georgia Tech's Gemini campus club
-        </p>
+          Students: get Gemini free for a year <span class="arrow">→</span>
+        </a>
         <h1>Gemini, <span class="grad-text">everywhere</span><br />you already work.</h1>
         <p class="lede" data-bind="tagline"></p>
         <div class="hero-cta">
           <a href="#events" class="btn btn-primary">See upcoming workshops</a>
           <button class="btn btn-ghost" data-open-chat>
-            <svg class="icon"><use href="#sparkle" fill="url(#gem-grad)" /></svg>
-            Ask Gem about the club
+            <img class="icon" src="assets/gigi.png" alt="" />
+            Ask Gigi about the club
           </button>
         </div>
       </div>
 
       <div class="prompt-bar" aria-hidden="true">
-        <svg class="icon"><use href="#sparkle" fill="url(#gem-grad)" /></svg>
+        <img class="icon" src="assets/gemini-spark.png" alt="" />
         <span class="prompt-text" id="hero-prompt"></span><span class="caret"></span>
       </div>
     </section>
@@ -98,7 +113,7 @@
         <article class="pillar" style="--c: var(--yellow)">
           <span class="pill-dot"></span>
           <h3>Across the Google suite</h3>
-          <p>Gmail, Docs, Sheets, Drive, NotebookLM, and more, all connected by Gemini.</p>
+          <p>Gmail, Docs, Sheets, Drive, Gemini Notebook, and more, all connected by Gemini.</p>
         </article>
         <article class="pillar" style="--c: var(--green)">
           <span class="pill-dot"></span>
@@ -106,6 +121,19 @@
           <p>Prototype your own app with AI Studio and the Gemini API. Beginners welcome.</p>
         </article>
       </div>
+    </section>
+
+    <!-- FREE GEMINI FOR STUDENTS -->
+    <section class="section" id="free-gemini">
+      <a class="offer" id="offer-link" href="https://gemini.google/students/" target="_blank" rel="noopener">
+        <img class="offer-spark" src="assets/gemini-spark.png" alt="" />
+        <div class="offer-copy">
+          <p class="kicker">Student perk</p>
+          <h2 data-bind-offer="headline"></h2>
+          <p data-bind-offer="description"></p>
+        </div>
+        <span class="btn btn-primary offer-btn">Claim it <span class="arrow">↗</span></span>
+      </a>
     </section>
 
     <!-- USE CASES -->
@@ -153,7 +181,7 @@
       <div class="section-head">
         <p class="kicker">05 · FAQ</p>
         <h2>Good questions</h2>
-        <p class="sub">Or skip the reading and <button class="link" data-open-chat>ask Gem</button>.</p>
+        <p class="sub">Or skip the reading and <button class="link" data-open-chat>ask Gigi</button>.</p>
       </div>
       <div class="faq" id="faq-list"></div>
     </section>
@@ -162,10 +190,11 @@
     <section class="section" id="join">
       <div class="join">
         <svg class="join-spark" aria-hidden="true"><use href="#sparkle" fill="#fff" /></svg>
+        <img class="join-gigi" src="assets/gigi-buzz.png" alt="Gigi, the club mascot" />
         <h2>Come build with us.</h2>
         <p data-bind="membership"></p>
         <div class="hero-cta">
-          <!-- TODO: replace with the real mailing list / GT Engage link -->
+          <!-- TODO: replace joinUrl in club.json with the real mailing list / GT Engage link -->
           <a class="btn btn-light" id="join-link" href="#">Join the mailing list</a>
           <a class="btn btn-outline-light" id="email-link" href="#">Email us</a>
         </div>
@@ -174,31 +203,31 @@
   </main>
 
   <footer class="footer">
-    <div class="brand">
-      <svg class="brand-mark"><use href="#sparkle" fill="url(#gem-grad)" /></svg>
-      <span>Gemini <b>@</b> GT</span>
+    <div class="footer-brand">
+      <img class="footer-logo" src="assets/logo-text-black.png" alt="Gemini Campus Club" />
+      <span class="footer-at">@ Georgia Tech</span>
     </div>
-    <p class="fine">A student-run organization at the Georgia Institute of Technology. Gemini and Google are trademarks of Google LLC.</p>
+    <p class="fine">Gemini Campus Club @ Georgia Tech is a student-run organization at the Georgia Institute of Technology. Gemini and Google are trademarks of Google LLC.</p>
     <span class="dots"><i class="b"></i><i class="r"></i><i class="y"></i><i class="g"></i></span>
   </footer>
 
-  <!-- GEM CHATBOT -->
-  <button class="chat-fab" id="chat-fab" aria-label="Chat with Gem" aria-expanded="false" aria-controls="chat">
-    <svg><use href="#sparkle" fill="#fff" /></svg>
+  <!-- GIGI CHATBOT -->
+  <button class="chat-fab" id="chat-fab" aria-label="Chat with Gigi" aria-expanded="false" aria-controls="chat">
+    <img src="assets/gigi.png" alt="" />
   </button>
-  <section class="chat" id="chat" role="dialog" aria-label="Chat with Gem" hidden>
+  <section class="chat" id="chat" role="dialog" aria-label="Chat with Gigi" hidden>
     <header class="chat-head">
-      <div class="chat-avatar"><svg><use href="#sparkle" fill="url(#gem-grad)" /></svg></div>
+      <div class="chat-avatar"><img src="assets/gigi.png" alt="" /></div>
       <div>
-        <p class="chat-title">Gem</p>
-        <p class="chat-status" id="chat-status">Club assistant · powered by Gemini</p>
+        <p class="chat-title">Gigi</p>
+        <p class="chat-status" id="chat-status">Club mascot &amp; assistant · powered by Gemini</p>
       </div>
       <button class="chat-close" id="chat-close" aria-label="Close chat">×</button>
     </header>
     <div class="chat-log" id="chat-log" aria-live="polite"></div>
     <div class="chat-suggest" id="chat-suggest"></div>
     <form class="chat-form" id="chat-form">
-      <input id="chat-input" autocomplete="off" maxlength="500" placeholder="Ask about events, joining, NotebookLM…" aria-label="Message Gem" />
+      <input id="chat-input" autocomplete="off" maxlength="500" placeholder="Ask about events, joining, free Gemini…" aria-label="Message Gigi" />
       <button type="submit" aria-label="Send">
         <svg viewBox="0 0 24 24"><path d="M3 20.5 21 12 3 3.5l.01 6.6L15 12 3.01 13.9z" fill="currentColor" /></svg>
       </button>

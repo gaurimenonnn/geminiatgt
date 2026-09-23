@@ -9,6 +9,8 @@ const club = await fetch('club.json').then((r) => r.json());
 document.querySelectorAll('[data-bind]').forEach((el) => { el.textContent = club[el.dataset.bind]; });
 $('#join-link').href = club.joinUrl;
 $('#email-link').href = `mailto:${club.contactEmail}`;
+document.querySelectorAll('[data-bind-offer]').forEach((el) => { el.textContent = club.studentOffer[el.dataset.bindOffer]; });
+$('#offer-link').href = club.studentOffer.url;
 
 // ---------- Nav border on scroll ----------
 const nav = $('.nav');
@@ -67,7 +69,7 @@ chips.addEventListener('click', (e) => {
   const chip = e.target.closest('.chip');
   if (chip) selectTool(+chip.dataset.i);
 });
-selectTool(Math.max(0, club.integrations.findIndex((t) => t.product === 'NotebookLM')));
+selectTool(Math.max(0, club.integrations.findIndex((t) => t.product === 'Gemini Notebook')));
 
 // ---------- Events ----------
 const today = new Date(new Date().toDateString());
@@ -135,7 +137,7 @@ const io = new IntersectionObserver((entries) => {
 }, { rootMargin: '0px 0px -8% 0px' });
 document.querySelectorAll('.reveal').forEach((el, i) => { el.style.transitionDelay = `${(i % 4) * 60}ms`; io.observe(el); });
 
-// ---------- Gem chatbot ----------
+// ---------- Gigi chatbot ----------
 const fab = $('#chat-fab');
 const panel = $('#chat');
 const log = $('#chat-log');
@@ -148,7 +150,7 @@ function openChat(open = panel.hidden) {
   panel.hidden = !open;
   fab.setAttribute('aria-expanded', String(open));
   if (open) {
-    if (!log.children.length) addMsg('model', `Hi! I'm Gem ✦ Ask me anything about ${club.short}: upcoming workshops, how to join, or what we do.`, false);
+    if (!log.children.length) addMsg('model', `Hi, I'm Gigi 🐝 the Gemini Campus Club mascot! Ask me about upcoming workshops, how to join, or getting Gemini free as a student.`, false);
     input.focus();
   }
 }
@@ -157,14 +159,14 @@ $('#chat-close').addEventListener('click', () => openChat(false));
 document.querySelectorAll('[data-open-chat]').forEach((b) => b.addEventListener('click', () => openChat(true)));
 addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) openChat(false); });
 
-const suggestions = ["What's the next event?", 'How do I join?', 'Who runs the club?', 'Do I need to code?', 'What is NotebookLM?'];
+const suggestions = ["What's the next event?", 'How do I join?', 'Who runs the club?', 'How do I get Gemini free?', 'What is Gemini Notebook?', 'Do I need to code?'];
 $('#chat-suggest').innerHTML = suggestions.map((s) => `<button type="button">${esc(s)}</button>`).join('');
 $('#chat-suggest').addEventListener('click', (e) => { if (e.target.matches('button')) send(e.target.textContent); });
 
 function addMsg(role, text, record = true) {
   const el = document.createElement('div');
   el.className = `msg ${role}`;
-  el.textContent = text;
+  el.innerHTML = esc(text).replace(/https?:\/\/[^\s<]+[^\s<.,!?)]/g, (url) => `<a href="${url}" target="_blank" rel="noopener">${url}</a>`);
   log.append(el);
   log.scrollTop = log.scrollHeight;
   if (record) history.push({ role, text });
@@ -198,7 +200,7 @@ async function send(raw) {
       else if (r.status === 429) reply = "Whoa, that's a lot of questions at once. Give me a few seconds and try again!";
       else if (r.status === 503 || r.status === 404 || r.status === 405) demoMode = true; // no key or static hosting
     } catch { demoMode = true; }
-    if (demoMode) $('#chat-status').textContent = 'Club assistant · offline FAQ mode';
+    if (demoMode) $('#chat-status').textContent = 'Club mascot & assistant · FAQ mode';
   }
   if (!reply) {
     await new Promise((r) => setTimeout(r, 450));
@@ -209,12 +211,18 @@ async function send(raw) {
   btn.disabled = false;
 }
 
-// Keyword fallback so Gem still answers when the Gemini API isn't configured.
+// Keyword fallback so Gigi still answers when the Gemini API isn't configured.
 function localAnswer(q) {
   const s = q.toLowerCase();
   const has = (...words) => words.some((w) => s.includes(w));
+  const faq = (start) => club.faq.find((f) => f.q.startsWith(start)).a;
   const fmt = (e) => `${e.title} on ${parseDate(e.date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}, ${e.time} (${e.location})`;
 
+  if (has('free gemini', 'gemini free', 'gemini for free', 'get gemini', 'ai pro', 'pro plan', 'discount', 'student offer', 'perk')) {
+    return `${club.studentOffer.description} Claim it here: ${club.studentOffer.url}`;
+  }
+  if (has('gigi', 'mascot', 'bee', 'who are you', 'your name')) return `That's me! ${club.mascot} Buzz buzz.`;
+  if (has('notebooklm', 'notebook lm')) return 'NotebookLM is now officially called Gemini Notebook! Load your lecture slides and readings, then get study guides, quizzes, and Audio Overviews. We have a whole workshop on it.';
   if (has('next', 'upcoming', 'event', 'workshop', 'when', 'meeting', 'schedule')) {
     if (!upcoming.length) return "No events are on the calendar right now, but new ones are coming soon. Join the mailing list to hear first!";
     const [next, ...rest] = upcoming;
@@ -223,11 +231,11 @@ function localAnswer(q) {
   if (has('who', 'lead', 'run', 'president', 'ambassador', 'gauri', 'ishita', 'founder')) {
     return `${club.short} is led by ${club.leads.map((l) => l.name).join(' and ')}, Georgia Tech's Google Student Ambassadors. Scroll to the Team section to meet them!`;
   }
-  if (has('code', 'coding', 'program', 'experience', 'beginner')) return club.faq[0].a;
-  if (has('bring', 'laptop', 'need')) return club.faq[1].a;
-  if (has('cost', 'free', 'pay', 'price', 'dues')) return club.faq[2].a;
-  if (has('often', 'frequen', 'every week')) return club.faq[3].a;
-  if (has('partner', 'collab', 'sponsor', 'custom')) return `${club.faq[4].a} Reach us at ${club.contactEmail}.`;
+  if (has('code', 'coding', 'program', 'experience', 'beginner')) return faq('Do I need');
+  if (has('bring', 'laptop', 'need')) return faq('What should');
+  if (has('cost', 'free', 'pay', 'price', 'dues')) return faq('How much');
+  if (has('often', 'frequen', 'every week')) return faq('How often');
+  if (has('partner', 'collab', 'sponsor', 'custom')) return `${faq('Can my org')} Reach us at ${club.contactEmail}.`;
   if (has('join', 'member', 'sign up', 'signup', 'mailing')) return `${club.membership} Hit "Join" in the top right to get started.`;
   if (has('contact', 'email', 'instagram', 'reach')) return `Email us at ${club.contactEmail}. We'd love to hear from you!`;
   const tool = club.integrations.find((t) => s.includes(t.product.toLowerCase()));
