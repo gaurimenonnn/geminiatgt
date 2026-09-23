@@ -78,7 +78,7 @@
       "product": "AI Studio",
       "color": "blue",
       "useCase": "Prototype an app with the Gemini API in an afternoon, no setup required.",
-      "icon": "https://www.gstatic.com/aistudio/ai_studio_favicon_2_256x256.png"
+      "icon": "assets/ai-studio.png"
     },
     {
       "product": "Colab",
@@ -111,7 +111,11 @@
     },
     {
       "q": "Can my org partner with you?",
-      "a": "Yes! We love running custom workshops for other clubs, classes, and teams. Email us at geminicampusclub.gt@gmail.com."
+      "a": "Yes! We already collaborate with Product@GT and AI@GT, and we're actively exploring more. Email us at geminicampusclub.gt@gmail.com."
+    },
+    {
+      "q": "Will you host a hackathon?",
+      "a": "Possibly! We're exploring hosting hackathons in the future. Follow @geminiatgt on Instagram to hear first."
     }
   ],
   "mascot": "Gigi is our club's mascot, and Gemini's mascot too!",
@@ -123,5 +127,13 @@
   "instagramHandle": "@geminiatgt",
   "linkedin": "",
   "linktree": "https://linktr.ee/geminiatgt",
-  "discord": ""
+  "discord": "",
+  "collaborations": {
+    "partners": [
+      "Product@GT",
+      "AI@GT"
+    ],
+    "exploring": "We're actively exploring more collaborations with Georgia Tech orgs.",
+    "hackathons": "We're also looking into hosting hackathons in the future."
+  }
 }

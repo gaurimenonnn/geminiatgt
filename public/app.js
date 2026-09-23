@@ -39,7 +39,6 @@ const products = [
   ['Chrome', '70/13/80b12e8440858a2adbb93163bbca/chrome.png'],
   ['Google Maps', '55/0e/c70d6751460a973c06968f0b64e0/logo-maps-2025-color-2x-web-96dp.webp'],
   ['YouTube', '58/3f/ac28ee8b450e9e21be9d1626708a/youtube.png'],
-  ['Google Play', '28/fe/f27a2e8f401b92129b9b27764746/play.png'],
   ['Google Photos', 'a7/0a/1e0b030945d4a7464516e82fa508/logo-photos-2025-color-2x-web-64dp.webp'],
 ];
 const icons = (hidden) => products.map(([name, path]) =>
@@ -326,7 +325,8 @@ function localAnswer(q) {
   if (has('gigi', 'mascot', 'who are you', 'your name')) return `That's me! ${club.mascot}`;
   if (has('notebooklm', 'notebook lm')) return 'NotebookLM is now officially called Gemini Notebook! Load your lecture slides and readings, then get study guides, quizzes, and Audio Overviews. We have a whole workshop on it.';
   if (has('backed', 'google support', 'affiliated', 'official club')) return `Yes! ${club.short} @ Georgia Tech is backed by Google and run by GT's Google Student Ambassadors.`;
-  if (has('partner', 'collab', 'sponsor', 'custom')) return faq('Can my org');
+  if (has('partner', 'collab', 'sponsor', 'custom', 'product@gt', 'ai@gt', 'other clubs', 'other orgs')) return faq('Can my org');
+  if (has('hackathon', 'hack')) return faq('Will you host');
   // A question naming a specific event ("when is build night?") gets that event.
   const generic = new Set(['gemini', 'workshop', 'event', 'your', 'with', 'when', 'what']);
   const named = upcoming.find((e) => (e.title.toLowerCase().match(/[a-z]{4,}/g) || []).some((w) => !generic.has(w) && s.includes(w)));
