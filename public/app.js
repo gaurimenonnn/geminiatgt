@@ -24,9 +24,28 @@ $('#offer-link').href = club.studentOffer.url;
 const nav = $('.nav');
 addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 8), { passive: true });
 
-// ---------- Marquee ----------
-const marqueeItems = club.integrations.map((t) => `<span><i style="background:${colorVar(t.color)}"></i>${esc(t.product)}</span>`).join('');
-$('#marquee').innerHTML = marqueeItems + marqueeItems; // doubled for a seamless loop
+// ---------- Product carousel (icons from about.google/products, minus Android) ----------
+const gstatic = (path) => `https://www.gstatic.com/marketing-cms/assets/images/${path}=s96-fcrop64=1,00000000ffffffff-rw`;
+const products = [
+  ['Gemini', 'a4/97/92c1ec494d129f3fb8d7caa91584/gemini-update.png'],
+  ['Google Docs', '3f/a8/73db6d7b4aedafe318b3a94d2dc9/logo-docs-2026-color-2x-web-64dp.webp'],
+  ['Gmail', '3b/69/c8499c0b4d33a35b4cd4ca975e79/logo-gmail-2026-color-2x-web-64dp.webp'],
+  ['Google Sheets', '14/7b/ad10ae6549cba0bbaf0c3545c1c0/logo-sheets-2026-color-2x-web-64dp.webp'],
+  ['Google Search', 'a8/cd/13111d7c4969a9969e67ec9ba24e/logo-googleg-gradient-color-2x-web-96dp.webp'],
+  ['Chrome', '70/13/80b12e8440858a2adbb93163bbca/chrome.png'],
+  ['Google Maps', '55/0e/c70d6751460a973c06968f0b64e0/logo-maps-2025-color-2x-web-96dp.webp'],
+  ['YouTube', '58/3f/ac28ee8b450e9e21be9d1626708a/youtube.png'],
+  ['Google Play', '28/fe/f27a2e8f401b92129b9b27764746/play.png'],
+  ['Google Photos', 'a7/0a/1e0b030945d4a7464516e82fa508/logo-photos-2025-color-2x-web-64dp.webp'],
+];
+const icons = (hidden) => products.map(([name, path]) =>
+  `<img src="${gstatic(path)}" alt="${hidden ? '' : name}" ${hidden ? 'aria-hidden="true"' : ''} width="40" height="40" loading="eager" />`).join('');
+$('#pc-track').innerHTML = icons(false) + icons(true); // doubled for a seamless loop
+$('#pc-toggle').addEventListener('click', (e) => {
+  const paused = $('#product-carousel').classList.toggle('paused');
+  e.currentTarget.setAttribute('aria-pressed', String(paused));
+  e.currentTarget.setAttribute('aria-label', paused ? 'Play animation' : 'Pause animation');
+});
 
 // ---------- Hero prompt typewriter ----------
 const heroPrompts = [
@@ -118,7 +137,19 @@ $('#events-list').innerHTML = upcoming.length
         <a class="btn btn-ghost btn-small cal-btn" href="${calendarUrl(e)}" target="_blank" rel="noopener">+ Calendar</a>
       </li>`;
     }).join('')
-  : `<li class="empty">New workshops dropping soon. Follow ${esc(club.instagramHandle)} on Instagram so you don't miss them.</li>`;
+  : '';
+if (upcoming.length) $('#events-list').innerHTML = `<ol class="events">${$('#events-list').innerHTML}</ol>`;
+else $('#events-list').innerHTML = `<div class="coming-soon reveal">
+    <div>
+      <span class="soon-pill"><i></i>Coming soon</span>
+      <h3>Our first workshops are on the way.</h3>
+      <p>We're lining up hands-on sessions on Gemini, Gemini Notebook, and Gemini in Workspace. Follow ${esc(club.instagramHandle)} so you hear the moment dates drop.</p>
+    </div>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="${club.instagram}" target="_blank" rel="noopener">Follow ${esc(club.instagramHandle)}</a>
+      <a class="btn btn-ghost" href="${club.linktree}" target="_blank" rel="noopener">Linktree</a>
+    </div>
+  </div>`;
 
 // ---------- Leads ----------
 $('#leads').innerHTML = club.leads.map((l) => {
@@ -153,20 +184,28 @@ const form = $('#chat-form');
 const input = $('#chat-input');
 const history = [];
 
+const dock = $('#gigi-dock');
+function toggleMenu(open = !dock.classList.contains('open')) {
+  dock.classList.toggle('open', open);
+  fab.setAttribute('aria-expanded', String(open));
+}
 function openChat(open = panel.hidden) {
   panel.hidden = !open;
-  fab.setAttribute('aria-expanded', String(open));
   if (open) {
-    if (!log.children.length) addMsg('model', `Hi, I'm Gigi 🐝 the Gemini Campus Club mascot! Ask me about upcoming workshops, how to join, or getting Gemini free as a student.`, false);
+    toggleMenu(false);
+    if (!log.children.length) addMsg('model', `Hi, I'm Gigi 🐝 the Gemini Campus Club mascot! I can answer common questions about the club.`, false);
     input.focus();
   }
 }
-fab.addEventListener('click', () => openChat());
+// Tapping Gigi fans out the shortcuts; if the chat is open, it closes everything instead.
+fab.addEventListener('click', () => { if (!panel.hidden) openChat(false); else toggleMenu(); });
+$('#open-chat').addEventListener('click', () => openChat(true));
+document.addEventListener('click', (e) => { if (!dock.contains(e.target)) toggleMenu(false); });
 $('#chat-close').addEventListener('click', () => openChat(false));
 document.querySelectorAll('[data-open-chat]').forEach((b) => b.addEventListener('click', () => openChat(true)));
-addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) openChat(false); });
+addEventListener('keydown', (e) => { if (e.key === 'Escape') { openChat(false); toggleMenu(false); } });
 
-const suggestions = ["What's the next event?", 'How do I join?', 'Who runs the club?', 'How do I get Gemini free?', 'What is Gemini Notebook?', 'Do I need to code?'];
+const suggestions = ['When are events?', 'How do I join?', 'Who runs the club?', 'How do I get Gemini free?', 'What is Gemini Notebook?', 'Do I need to code?'];
 $('#chat-suggest').innerHTML = suggestions.map((s) => `<button type="button">${esc(s)}</button>`).join('');
 $('#chat-suggest').addEventListener('click', (e) => { if (e.target.matches('button')) send(e.target.textContent); });
 
@@ -220,7 +259,7 @@ function localAnswer(q) {
   const named = upcoming.find((e) => (e.title.toLowerCase().match(/[a-z]{4,}/g) || []).some((w) => !generic.has(w) && s.includes(w)));
   if (named) return `${fmt(named)}. ${named.description}`;
   if (has('next', 'upcoming', 'event', 'workshop', 'when', 'meeting', 'schedule')) {
-    if (!upcoming.length) return "No events are on the calendar right now, but new ones are coming soon. Join the mailing list to hear first!";
+    if (!upcoming.length) return `Our first workshops are coming soon! Follow ${club.instagramHandle} on Instagram to hear the moment dates drop.`;
     const [next, ...rest] = upcoming;
     return `Next up: ${fmt(next)}. ${next.description}${rest.length ? `\n\nAfter that: ${rest.map((e) => e.title).join(', ')}.` : ''}`;
   }

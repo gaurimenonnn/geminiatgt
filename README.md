@@ -16,6 +16,8 @@ npm run dev     # then open http://localhost:8080
 Almost everything on the page (events, team, use cases, FAQ, links) lives in **`public/club.json`**. Edit it and refresh; no code changes needed. Past events hide themselves automatically.
 
 - **Headshots:** drop `gauri.jpg` and `ishita.jpg` into `public/assets/` (square, ~400px). Initials show until then.
+- **Gemini Notebook icon:** save it as `public/assets/gemini-notebook.png` (square, transparent). A placeholder shows until then.
+- **Events:** add them to `"events"` in `club.json`; while it is empty the section shows "Coming soon".
 - **Discord:** paste the invite link into `"discord"` in `club.json`. Until then the footer shows "Discord · coming soon".
 - **Logos:** `public/assets/` holds web-sized copies (`gigi-buzz.png` nav logo, `gigi.png` chat avatar, `logo-text-black.png` footer, `gemini-spark.png` intro). Full-res originals live in `assets-src/` (gitignored).
 - **Intro animation:** plays once per browser session (skipped for reduced-motion users). Open the site in a new tab to see it again.

@@ -77,40 +77,7 @@
       "useCase": "Get code explained, debugged, and extended inside your data-science notebooks."
     }
   ],
-  "events": [
-    {
-      "title": "Kickoff: Gemini 101",
-      "date": "2026-10-01",
-      "time": "6:00 – 7:30 PM",
-      "location": "Location TBD",
-      "type": "Workshop",
-      "description": "A tour of the Gemini app, Gems, Deep Research, and Canvas, plus free pizza. Bring a laptop."
-    },
-    {
-      "title": "Study Smarter with Gemini Notebook",
-      "date": "2026-10-15",
-      "time": "6:00 – 7:30 PM",
-      "location": "Location TBD",
-      "type": "Workshop",
-      "description": "Turn your course materials into study guides, flashcards, and podcast-style Audio Overviews just in time for midterms."
-    },
-    {
-      "title": "Gemini in Workspace: Run Your Club on Autopilot",
-      "date": "2026-10-29",
-      "time": "6:00 – 7:30 PM",
-      "location": "Location TBD",
-      "type": "Workshop",
-      "description": "Gmail, Docs, Sheets, and Calendar workflows for club officers and project teams."
-    },
-    {
-      "title": "Build Night: Ship a Gemini App",
-      "date": "2026-11-12",
-      "time": "5:30 – 9:00 PM",
-      "location": "Location TBD",
-      "type": "Build night",
-      "description": "Go from idea to a working prototype with Google AI Studio and the Gemini API. Mentors on hand, prizes for best demos."
-    }
-  ],
+  "events": [],
   "faq": [
     {
       "q": "Do I need to know how to code?",
@@ -130,7 +97,7 @@
     },
     {
       "q": "How often do you meet?",
-      "a": "About every two weeks during the semester. Check the Events section for exact dates."
+      "a": "We're planning roughly every two weeks during the semester. Dates are coming soon; follow @geminiatgt on Instagram for announcements."
     },
     {
       "q": "Can my org partner with you?",

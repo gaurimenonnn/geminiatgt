@@ -54,15 +54,20 @@
       <a href="#team">Team</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a href="#join" class="btn btn-small btn-dark">Join</a>
+    <a href="#join" class="btn btn-small btn-primary">Join</a>
   </header>
 
   <main>
     <!-- HERO -->
     <section class="hero">
-      <div class="aura" aria-hidden="true"></div>
-      <div class="grid-bg" aria-hidden="true"></div>
-      <img class="hero-spark" src="assets/gemini-spark.png" alt="" aria-hidden="true" />
+      <!-- Product carousel, modeled on about.google/products -->
+      <div class="product-carousel" id="product-carousel">
+        <div class="pc-viewport"><div class="pc-track" id="pc-track"></div></div>
+        <button class="pc-toggle" id="pc-toggle" aria-label="Pause animation" aria-pressed="false">
+          <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor" /></svg>
+          <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor" /></svg>
+        </button>
+      </div>
 
       <div class="hero-inner">
         <a class="eyebrow" href="#free-gemini">
@@ -85,11 +90,6 @@
         <span class="prompt-text" id="hero-prompt"></span><span class="caret"></span>
       </div>
     </section>
-
-    <!-- MARQUEE -->
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-track" id="marquee"></div>
-    </div>
 
     <!-- ABOUT -->
     <section class="section" id="about">
@@ -155,9 +155,9 @@
     <section class="section" id="events">
       <div class="section-head">
         <h2>Upcoming workshops</h2>
-        <p class="sub">Free, open to every major, pizza usually involved. Hit <b>+ Calendar</b> to save one to Google Calendar.</p>
+        <p class="sub">Free and open to every major.</p>
       </div>
-      <ol class="events" id="events-list"></ol>
+      <div id="events-list"></div>
     </section>
 
     <!-- TEAM -->
@@ -205,9 +205,23 @@
   </footer>
 
   <!-- GIGI CHATBOT -->
-  <button class="chat-fab" id="chat-fab" aria-label="Chat with Gigi" aria-expanded="false" aria-controls="chat">
-    <img src="assets/gigi.png" alt="" />
-  </button>
+  <div class="gigi-dock" id="gigi-dock">
+    <div class="gigi-actions" id="gigi-actions" role="menu" aria-label="Gigi shortcuts">
+      <a class="gigi-action" role="menuitem" href="https://gemini.google.com/app" target="_blank" rel="noopener" data-label="Open Gemini">
+        <img src="assets/gemini-spark.png" alt="Gemini" />
+      </a>
+      <!-- Drop the official icon at assets/gemini-notebook.png; the placeholder shows until then -->
+      <a class="gigi-action" role="menuitem" href="https://notebooklm.google.com/" target="_blank" rel="noopener" data-label="Open Gemini Notebook">
+        <img src="assets/gemini-notebook.png" alt="Gemini Notebook" onerror="this.onerror=null;this.src='assets/gemini-notebook-placeholder.svg'" />
+      </a>
+      <button class="gigi-action" role="menuitem" type="button" id="open-chat" data-label="Chat with Gigi">
+        <svg viewBox="0 0 24 24" aria-label="Chat"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z" fill="currentColor" /></svg>
+      </button>
+    </div>
+    <button class="gigi-fab" id="chat-fab" aria-label="Gigi, the club mascot. Open shortcuts" aria-expanded="false" aria-controls="gigi-actions">
+      <img src="assets/gigi.png" alt="" />
+    </button>
+  </div>
   <section class="chat" id="chat" role="dialog" aria-label="Chat with Gigi" hidden>
     <header class="chat-head">
       <div class="chat-avatar"><img src="assets/gigi.png" alt="" /></div>
