@@ -2,6 +2,16 @@ const $ = (sel) => document.querySelector(sel);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const colorVar = (c) => `var(--${c})`;
 const COLORS = ['blue', 'red', 'yellow', 'green'];
+// Analytics events (no-op if the gtag script is blocked)
+const track = (name, params = {}) => { try { window.gtag?.('event', name, params); } catch {} };
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a');
+  if (!a) return;
+  if (a.closest('#free-gemini')) track('student_offer_click');
+  else if (a.id === 'join-link') track('get_involved_click');
+  else if (a.closest('.gigi-action')) track('gigi_shortcut', { target: a.dataset.label });
+  else if (a.closest('#socials')) track('social_click', { network: a.textContent });
+});
 const replay = (el, cls) => { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); };
 
 const club = await fetch('club.json').then((r) => r.json());
@@ -261,6 +271,7 @@ function openChat(open = panel.hidden) {
     return;
   }
   panel.classList.remove('closing');
+  if (panel.hidden) track('gigi_chat_open');
   panel.hidden = false;
   if (open) {
     toggleMenu(false);
@@ -297,6 +308,7 @@ async function send(raw) {
   if (!text) return;
   input.value = '';
   addMsg('user', text);
+  track('gigi_question'); // count only; typed text may contain personal info
   const btn = form.querySelector('button');
   btn.disabled = true;
   const typingEl = document.createElement('div');
