@@ -11,7 +11,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <!-- Decide before first paint whether the intro plays, so the page never flashes underneath it -->
   <script>
@@ -95,7 +94,6 @@
     <!-- ABOUT -->
     <section class="section" id="about">
       <div class="section-head">
-        <p class="kicker">01 · About</p>
         <h2>Less hype. More <span class="grad-text">"wait, it can do that?"</span></h2>
         <p class="sub" data-bind="mission"></p>
       </div>
@@ -128,7 +126,6 @@
       <a class="offer" id="offer-link" href="https://gemini.google/students/" target="_blank" rel="noopener">
         <img class="offer-spark" src="assets/gemini-spark.png" alt="" />
         <div class="offer-copy">
-          <p class="kicker">Student perk</p>
           <h2 data-bind-offer="headline"></h2>
           <p data-bind-offer="description"></p>
         </div>
@@ -139,7 +136,6 @@
     <!-- USE CASES -->
     <section class="section" id="tools">
       <div class="section-head">
-        <p class="kicker">02 · Use cases</p>
         <h2>One assistant. Your whole toolkit.</h2>
         <p class="sub">Pick a tool to see the kind of thing we'll build together in a workshop.</p>
       </div>
@@ -151,7 +147,6 @@
             <span class="tool-meta">Gemini in <b id="tool-name"></b></span>
           </div>
           <p class="tool-usecase" id="tool-usecase"></p>
-          <div class="shimmer-lines" aria-hidden="true"><i></i><i></i><i></i></div>
         </div>
       </div>
     </section>
@@ -159,7 +154,6 @@
     <!-- EVENTS -->
     <section class="section" id="events">
       <div class="section-head">
-        <p class="kicker">03 · Events</p>
         <h2>Upcoming workshops</h2>
         <p class="sub">Free, open to every major, pizza usually involved. Hit <b>+ Calendar</b> to save one to Google Calendar.</p>
       </div>
@@ -169,7 +163,6 @@
     <!-- TEAM -->
     <section class="section" id="team">
       <div class="section-head">
-        <p class="kicker">04 · Team</p>
         <h2>Who's leading the club</h2>
         <p class="sub">Run by Georgia Tech's Google Student Ambassadors.</p>
       </div>
@@ -179,7 +172,6 @@
     <!-- FAQ -->
     <section class="section" id="faq">
       <div class="section-head">
-        <p class="kicker">05 · FAQ</p>
         <h2>Good questions</h2>
         <p class="sub">Or skip the reading and <button class="link" data-open-chat>ask Gigi</button>.</p>
       </div>
@@ -194,8 +186,8 @@
         <h2>Come build with us.</h2>
         <p data-bind="membership"></p>
         <div class="hero-cta">
-          <!-- TODO: replace joinUrl in club.json with the real mailing list / GT Engage link -->
-          <a class="btn btn-light" id="join-link" href="#">Join the mailing list</a>
+          <a class="btn btn-light" id="join-link" href="#" target="_blank" rel="noopener">Get involved</a>
+          <a class="btn btn-outline-light" id="insta-link" href="#" target="_blank" rel="noopener">Instagram</a>
           <a class="btn btn-outline-light" id="email-link" href="#">Email us</a>
         </div>
       </div>
@@ -207,6 +199,7 @@
       <img class="footer-logo" src="assets/logo-text-black.png" alt="Gemini Campus Club" />
       <span class="footer-at">@ Georgia Tech</span>
     </div>
+    <nav class="socials" id="socials" aria-label="Club links"></nav>
     <p class="fine">Gemini Campus Club @ Georgia Tech is a student-run organization at the Georgia Institute of Technology. Gemini and Google are trademarks of Google LLC.</p>
     <span class="dots"><i class="b"></i><i class="r"></i><i class="y"></i><i class="g"></i></span>
   </footer>
@@ -220,14 +213,14 @@
       <div class="chat-avatar"><img src="assets/gigi.png" alt="" /></div>
       <div>
         <p class="chat-title">Gigi</p>
-        <p class="chat-status" id="chat-status">Club mascot &amp; assistant · powered by Gemini</p>
+        <p class="chat-status" id="chat-status">Club mascot · answers FAQs</p>
       </div>
       <button class="chat-close" id="chat-close" aria-label="Close chat">×</button>
     </header>
     <div class="chat-log" id="chat-log" aria-live="polite"></div>
     <div class="chat-suggest" id="chat-suggest"></div>
     <form class="chat-form" id="chat-form">
-      <input id="chat-input" autocomplete="off" maxlength="500" placeholder="Ask about events, joining, free Gemini…" aria-label="Message Gigi" />
+      <input id="chat-input" autocomplete="off" maxlength="500" placeholder="Ask a question about the club…" aria-label="Message Gigi" />
       <button type="submit" aria-label="Send">
         <svg viewBox="0 0 24 24"><path d="M3 20.5 21 12 3 3.5l.01 6.6L15 12 3.01 13.9z" fill="currentColor" /></svg>
       </button>

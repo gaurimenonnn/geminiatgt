@@ -9,6 +9,14 @@ const club = await fetch('club.json').then((r) => r.json());
 document.querySelectorAll('[data-bind]').forEach((el) => { el.textContent = club[el.dataset.bind]; });
 $('#join-link').href = club.joinUrl;
 $('#email-link').href = `mailto:${club.contactEmail}`;
+$('#insta-link').href = club.instagram;
+$('#socials').innerHTML = [
+  `<a href="${club.instagram}" target="_blank" rel="noopener">Instagram ${esc(club.instagramHandle)}</a>`,
+  `<a href="${club.linktree}" target="_blank" rel="noopener">Linktree</a>`,
+  `<a href="mailto:${club.contactEmail}">${esc(club.contactEmail)}</a>`,
+  // Discord placeholder until club.discord has an invite link
+  club.discord ? `<a href="${club.discord}" target="_blank" rel="noopener">Discord</a>` : `<span class="soon">Discord · coming soon</span>`,
+].join('');
 document.querySelectorAll('[data-bind-offer]').forEach((el) => { el.textContent = club.studentOffer[el.dataset.bindOffer]; });
 $('#offer-link').href = club.studentOffer.url;
 
@@ -110,7 +118,7 @@ $('#events-list').innerHTML = upcoming.length
         <a class="btn btn-ghost btn-small cal-btn" href="${calendarUrl(e)}" target="_blank" rel="noopener">+ Calendar</a>
       </li>`;
     }).join('')
-  : `<li class="empty">New workshops dropping soon. Join the mailing list so you don't miss them.</li>`;
+  : `<li class="empty">New workshops dropping soon. Follow ${esc(club.instagramHandle)} on Instagram so you don't miss them.</li>`;
 
 // ---------- Leads ----------
 $('#leads').innerHTML = club.leads.map((l) => {
@@ -144,7 +152,6 @@ const log = $('#chat-log');
 const form = $('#chat-form');
 const input = $('#chat-input');
 const history = [];
-let demoMode = false;
 
 function openChat(open = panel.hidden) {
   panel.hidden = !open;
@@ -188,30 +195,14 @@ async function send(raw) {
   log.append(typingEl);
   log.scrollTop = log.scrollHeight;
 
-  let reply;
-  if (!demoMode) {
-    try {
-      const r = await fetch('api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: history }),
-      });
-      if (r.ok) reply = (await r.json()).text;
-      else if (r.status === 429) reply = "Whoa, that's a lot of questions at once. Give me a few seconds and try again!";
-      else if (r.status === 503 || r.status === 404 || r.status === 405) demoMode = true; // no key or static hosting
-    } catch { demoMode = true; }
-    if (demoMode) $('#chat-status').textContent = 'Club mascot & assistant · FAQ mode';
-  }
-  if (!reply) {
-    await new Promise((r) => setTimeout(r, 450));
-    reply = localAnswer(text);
-  }
+  await new Promise((r) => setTimeout(r, 450));
+  const reply = localAnswer(text);
   typingEl.remove();
   addMsg('model', reply);
   btn.disabled = false;
 }
 
-// Keyword fallback so Gigi still answers when the Gemini API isn't configured.
+// Gigi is a rule-based FAQ helper: keyword intents first, then best word-overlap match against the FAQ list.
 function localAnswer(q) {
   const s = q.toLowerCase();
   const has = (...words) => words.some((w) => s.includes(w));
@@ -223,6 +214,11 @@ function localAnswer(q) {
   }
   if (has('gigi', 'mascot', 'bee', 'who are you', 'your name')) return `That's me! ${club.mascot} Buzz buzz.`;
   if (has('notebooklm', 'notebook lm')) return 'NotebookLM is now officially called Gemini Notebook! Load your lecture slides and readings, then get study guides, quizzes, and Audio Overviews. We have a whole workshop on it.';
+  if (has('partner', 'collab', 'sponsor', 'custom')) return faq('Can my org');
+  // A question naming a specific event ("when is build night?") gets that event.
+  const generic = new Set(['gemini', 'workshop', 'event', 'your', 'with', 'when', 'what']);
+  const named = upcoming.find((e) => (e.title.toLowerCase().match(/[a-z]{4,}/g) || []).some((w) => !generic.has(w) && s.includes(w)));
+  if (named) return `${fmt(named)}. ${named.description}`;
   if (has('next', 'upcoming', 'event', 'workshop', 'when', 'meeting', 'schedule')) {
     if (!upcoming.length) return "No events are on the calendar right now, but new ones are coming soon. Join the mailing list to hear first!";
     const [next, ...rest] = upcoming;
@@ -235,12 +231,19 @@ function localAnswer(q) {
   if (has('bring', 'laptop', 'need')) return faq('What should');
   if (has('cost', 'free', 'pay', 'price', 'dues')) return faq('How much');
   if (has('often', 'frequen', 'every week')) return faq('How often');
-  if (has('partner', 'collab', 'sponsor', 'custom')) return `${faq('Can my org')} Reach us at ${club.contactEmail}.`;
-  if (has('join', 'member', 'sign up', 'signup', 'mailing')) return `${club.membership} Hit "Join" in the top right to get started.`;
-  if (has('contact', 'email', 'instagram', 'reach')) return `Email us at ${club.contactEmail}. We'd love to hear from you!`;
+  if (has('join', 'member', 'sign up', 'signup', 'mailing', 'involved')) return `${club.membership} Start here: ${club.linktree}`;
+  if (has('discord', 'server')) return club.discord ? `Join our Discord: ${club.discord}` : `Our Discord is coming soon! Follow ${club.instagramHandle} on Instagram to hear when it launches.`;
+  if (has('instagram', 'insta', 'social') || /\big\b/.test(s)) return `Follow us on Instagram at ${club.instagramHandle}: ${club.instagram}`;
+  if (has('linktree', 'links')) return `All our links are here: ${club.linktree}`;
+  if (has('contact', 'email', 'reach', 'message')) return `Email us at ${club.contactEmail}, or DM ${club.instagramHandle} on Instagram. We'd love to hear from you!`;
   const tool = club.integrations.find((t) => s.includes(t.product.toLowerCase()));
   if (tool) return `Gemini in ${tool.product} is one of our favorites. For example: ${tool.useCase} We cover it hands-on in our workshops.`;
   if (has('gemini', 'what is', 'what do', 'about', 'purpose', 'club')) return club.mission;
   if (/\b(hi|hello|hey|yo|sup)\b/.test(s)) return 'Hey hey! Ask me about upcoming events, joining, or what Gemini can do across Google apps.';
-  return `I'm not totally sure about that one. Try asking about events, joining, or the team, or email ${club.contactEmail}.`;
+  const words = s.match(/[a-z]{4,}/g) || [];
+  const best = club.faq
+    .map((f) => ({ f, score: words.filter((w) => f.q.toLowerCase().includes(w)).length }))
+    .sort((a, b) => b.score - a.score)[0];
+  if (best?.score) return best.f.a;
+  return `I only know the basics about the club, so I'm not sure about that one! Try asking about events, joining, or free Gemini for students, or email ${club.contactEmail}.`;
 }

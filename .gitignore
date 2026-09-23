@@ -3,3 +3,5 @@ node_modules/
 .DS_Store
 google-cloud-cli-*.tar.gz
 assets-src/
+.firebase/
+firebase-debug.log

@@ -3,10 +3,10 @@
   "short": "Gemini Campus Club",
   "tagline": "Hands-on workshops for using Gemini across the tools you already live in.",
   "mission": "We're the Gemini Campus Club at Georgia Tech, run by GT's Google Student Ambassadors. We host hands-on workshops and events that show students how to use Gemini, Gemini Notebook, and Gemini's integrations across Google Workspace for real student work: studying, research, projects, clubs, and recruiting.",
-  "membership": "Membership is free and open to every Georgia Tech student, whatever your major or year. You don't need any coding experience, just a laptop and a Google account. Join the mailing list to hear about events.",
-  "joinUrl": "#join",
-  "contactEmail": "your-club-email@example.com",
-  "instagram": "https://instagram.com/",
+  "membership": "Membership is free and open to every Georgia Tech student, whatever your major or year. You don't need any coding experience, just a laptop and a Google account. Find all our links on Linktree and follow @geminiatgt on Instagram for event updates.",
+  "joinUrl": "https://linktr.ee/geminiatgt",
+  "contactEmail": "geminicampusclub.gt@gmail.com",
+  "instagram": "https://instagram.com/geminiatgt",
   "leads": [
     {
       "name": "Gauri Menon",
@@ -134,7 +134,7 @@
     },
     {
       "q": "Can my org partner with you?",
-      "a": "Yes! We love running custom workshops for other clubs, classes, and teams. Email us."
+      "a": "Yes! We love running custom workshops for other clubs, classes, and teams. Email us at geminicampusclub.gt@gmail.com."
     }
   ],
   "mascot": "Gigi is the club's mascot (and a mascot for Gemini in general): a cheerful Gemini-colored bee.",
@@ -142,5 +142,8 @@
     "headline": "Get Gemini free for a year",
     "description": "Eligible students can get Google's AI Pro plan free for a year, with Google's most capable Gemini models and Gemini built into the apps you already use. Check eligibility and sign up on Google's student page.",
     "url": "https://gemini.google/students/"
-  }
+  },
+  "instagramHandle": "@geminiatgt",
+  "linktree": "https://linktr.ee/geminiatgt",
+  "discord": ""
 }
