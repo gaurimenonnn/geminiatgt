@@ -11,8 +11,8 @@
     {
       "name": "Gauri Menon",
       "role": "Google Student Ambassador · Co-lead",
-      "major": "Major TBD",
-      "year": "Year TBD",
+      "major": "Computer Science",
+      "year": "3rd year",
       "photo": "assets/gauri.jpg",
       "accent": "blue"
     },
@@ -29,52 +29,62 @@
     {
       "product": "Gmail",
       "color": "red",
-      "useCase": "Summarize a 40-email group-project thread and draft a reply that assigns next steps."
+      "useCase": "Summarize a 40-email group-project thread and draft a reply that assigns next steps.",
+      "icon": "https://www.gstatic.com/marketing-cms/assets/images/3b/69/c8499c0b4d33a35b4cd4ca975e79/logo-gmail-2026-color-2x-web-64dp.webp=s96-fcrop64=1,00000000ffffffff-rw"
     },
     {
       "product": "Docs",
       "color": "blue",
-      "useCase": "Turn messy lab notes into a structured report outline, then tighten the prose."
+      "useCase": "Turn messy lab notes into a structured report outline, then tighten the prose.",
+      "icon": "https://www.gstatic.com/marketing-cms/assets/images/3f/a8/73db6d7b4aedafe318b3a94d2dc9/logo-docs-2026-color-2x-web-64dp.webp=s96-fcrop64=1,00000000ffffffff-rw"
     },
     {
       "product": "Sheets",
       "color": "green",
-      "useCase": "Build a club budget tracker and ask for formulas in plain English."
+      "useCase": "Build a club budget tracker and ask for formulas in plain English.",
+      "icon": "https://www.gstatic.com/marketing-cms/assets/images/14/7b/ad10ae6549cba0bbaf0c3545c1c0/logo-sheets-2026-color-2x-web-64dp.webp=s96-fcrop64=1,00000000ffffffff-rw"
     },
     {
       "product": "Slides",
       "color": "yellow",
-      "useCase": "Generate a first-draft pitch deck and on-brand images for a hackathon demo."
+      "useCase": "Generate a first-draft pitch deck and on-brand images for a hackathon demo.",
+      "icon": "https://www.gstatic.com/marketing-cms/assets/images/db/fe/044692414d4f998eeea576273b55/logo-slides-2026-color-2x-web-64dp.webp=s96-fcrop64=1,00000000ffffffff-rw"
     },
     {
       "product": "Drive",
       "color": "blue",
-      "useCase": "Ask questions across every file in a project folder without opening any of them."
+      "useCase": "Ask questions across every file in a project folder without opening any of them.",
+      "icon": "https://www.gstatic.com/marketing-cms/assets/images/53/ed/91a2405a4aa28e40fc8c4d5d934d/logo-drive-2026-color-2x-web-64dp.webp=s96-fcrop64=1,00000000ffffffff-rw"
     },
     {
       "product": "Calendar",
       "color": "green",
-      "useCase": "Plan an exam week around classes, meetings, and study blocks."
+      "useCase": "Plan an exam week around classes, meetings, and study blocks.",
+      "icon": "https://www.gstatic.com/marketing-cms/assets/images/66/89/f778a1de49ea98641f402886ce6a/logo-calendar-2026-color-2x-web-64dp.webp=s96-fcrop64=1,00000000ffffffff-rw"
     },
     {
       "product": "Meet",
       "color": "red",
-      "useCase": "Get auto-generated notes and action items from team meetings."
+      "useCase": "Get auto-generated notes and action items from team meetings.",
+      "icon": "https://www.gstatic.com/marketing-cms/assets/images/16/14/b7dcd9b94b55a02ae3034932200c/logo-meet-2026-color-2x-web-64dp.webp=s96-fcrop64=1,00000000ffffffff-rw"
     },
     {
       "product": "Gemini Notebook",
       "color": "yellow",
-      "useCase": "Load lecture slides and readings, then generate study guides, quizzes, and Audio Overviews."
+      "useCase": "Load lecture slides and readings, then generate study guides, quizzes, and Audio Overviews.",
+      "icon": "assets/gemini-notebook.png"
     },
     {
       "product": "AI Studio",
       "color": "blue",
-      "useCase": "Prototype an app with the Gemini API in an afternoon, no setup required."
+      "useCase": "Prototype an app with the Gemini API in an afternoon, no setup required.",
+      "icon": "https://www.gstatic.com/aistudio/ai_studio_favicon_2_256x256.png"
     },
     {
       "product": "Colab",
       "color": "yellow",
-      "useCase": "Get code explained, debugged, and extended inside your data-science notebooks."
+      "useCase": "Get code explained, debugged, and extended inside your data-science notebooks.",
+      "icon": "https://colab.research.google.com/img/colab_favicon_256px.png"
     }
   ],
   "events": [],
@@ -89,7 +99,7 @@
     },
     {
       "q": "Who is Gigi?",
-      "a": "Gigi is our mascot, a Gemini-colored bee (and a mascot for Gemini in general). Gigi also runs the chat assistant on this site."
+      "a": "Gigi is our club's mascot, and Gemini's mascot too! Gigi also answers questions in the chat on this site."
     },
     {
       "q": "How much does it cost?",
@@ -104,7 +114,7 @@
       "a": "Yes! We love running custom workshops for other clubs, classes, and teams. Email us at geminicampusclub.gt@gmail.com."
     }
   ],
-  "mascot": "Gigi is the club's mascot (and a mascot for Gemini in general): a cheerful Gemini-colored bee.",
+  "mascot": "Gigi is our club's mascot, and Gemini's mascot too!",
   "studentOffer": {
     "headline": "Get Gemini free for a year",
     "description": "Eligible students can get Google's AI Pro plan free for a year, with Google's most capable Gemini models and Gemini built into the apps you already use. Check eligibility and sign up on Google's student page.",

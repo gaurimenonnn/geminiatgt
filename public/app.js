@@ -2,6 +2,7 @@ const $ = (sel) => document.querySelector(sel);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const colorVar = (c) => `var(--${c})`;
 const COLORS = ['blue', 'red', 'yellow', 'green'];
+const replay = (el, cls) => { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); };
 
 const club = await fetch('club.json').then((r) => r.json());
 
@@ -75,24 +76,28 @@ typeLoop($('#hero-prompt'), heroPrompts);
 const chips = $('#tool-chips');
 const card = $('#tool-card');
 chips.innerHTML = club.integrations.map((t, i) =>
-  `<button class="chip" role="tab" data-i="${i}" style="--c:${colorVar(t.color)}" aria-selected="false"><i></i>${esc(t.product)}</button>`
+  `<button class="chip" role="tab" data-i="${i}" style="--c:${colorVar(t.color)}" aria-selected="false"><img src="${t.icon}" alt="" width="20" height="20" />${esc(t.product)}</button>`
 ).join('');
 let typing = 0;
 function selectTool(i) {
   const t = club.integrations[i];
   chips.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-selected', String(+c.dataset.i === i)));
   card.style.setProperty('--c', colorVar(t.color));
-  $('#tool-badge').textContent = t.product[0];
+  $('#tool-badge').innerHTML = `<img src="${t.icon}" alt="" />`;
   $('#tool-name').textContent = t.product;
+  replay(card, 'swap');
   const target = $('#tool-usecase');
+  const thinking = $('#tool-thinking');
+  thinking.classList.remove('on');
   const run = ++typing;
-  if (reduceMotion) { target.textContent = t.useCase; return; }
+  if (reduceMotion) { target.textContent = t.useCase; thinking.classList.add('on'); return; }
   target.textContent = '';
   let n = 0;
   (function step() {
     if (run !== typing) return;
     target.textContent = t.useCase.slice(0, ++n);
     if (n < t.useCase.length) setTimeout(step, 14);
+    else setTimeout(() => { if (run === typing) thinking.classList.add('on'); }, 250); // Gemini "keeps thinking"
   })();
 }
 chips.addEventListener('click', (e) => {
@@ -175,9 +180,57 @@ $('#faq-list').innerHTML = club.faq.map((f) => `<details class="reveal"><summary
 // ---------- Scroll reveal ----------
 document.querySelectorAll('.section-head, .pillar, .tools, .join').forEach((el) => el.classList.add('reveal'));
 const io = new IntersectionObserver((entries) => {
-  entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+  entries.forEach((en) => {
+    if (!en.isIntersecting) return;
+    en.target.classList.add('in');
+    io.unobserve(en.target);
+    setTimeout(() => { en.target.style.transitionDelay = ''; }, 1400); // so later hover effects aren't delayed
+  });
 }, { rootMargin: '0px 0px -8% 0px' });
-document.querySelectorAll('.reveal').forEach((el, i) => { el.style.transitionDelay = `${(i % 4) * 60}ms`; io.observe(el); });
+document.querySelectorAll('.reveal').forEach((el) => {
+  const i = [...el.parentElement.children].indexOf(el);
+  el.style.transitionDelay = `${Math.min(i, 5) * 90}ms`;
+  io.observe(el);
+});
+
+// ---------- Nav: underline follows the section in view ----------
+const navLinks = [...document.querySelectorAll('.nav-links a')];
+const spy = new IntersectionObserver((entries) => {
+  entries.forEach((en) => {
+    if (en.isIntersecting) navLinks.forEach((a) => a.classList.toggle('active', a.hash === `#${en.target.id}`));
+  });
+}, { rootMargin: '-45% 0px -50% 0px' });
+navLinks.forEach((a) => { const sec = document.querySelector(a.hash); if (sec) spy.observe(sec); });
+
+// ---------- Material-style ripple on buttons ----------
+document.addEventListener('pointerdown', (e) => {
+  const el = e.target.closest('.btn, .chip, .socials a, .pc-toggle, .chat-suggest button');
+  if (!el || reduceMotion) return;
+  const r = el.getBoundingClientRect();
+  const size = Math.max(r.width, r.height) * 2;
+  const dot = document.createElement('span');
+  dot.className = 'ripple';
+  dot.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - r.left - size / 2}px;top:${e.clientY - r.top - size / 2}px`;
+  el.append(dot);
+  dot.addEventListener('animationend', () => dot.remove());
+});
+
+// ---------- FAQ: animate open/close instead of snapping ----------
+$('#faq-list').addEventListener('click', (e) => {
+  const summary = e.target.closest('summary');
+  if (!summary || reduceMotion) return;
+  e.preventDefault();
+  const details = summary.parentElement;
+  const body = details.querySelector('p');
+  if (details.open) {
+    details.classList.add('closing');
+    body.animate([{ height: `${body.offsetHeight}px`, opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 260, easing: 'cubic-bezier(.3, 0, .8, .15)' })
+      .onfinish = () => { details.open = false; details.classList.remove('closing'); };
+  } else {
+    details.open = true;
+    body.animate([{ height: '0px', opacity: 0 }, { height: `${body.offsetHeight}px`, opacity: 1 }], { duration: 380, easing: 'cubic-bezier(.2, 0, 0, 1)' });
+  }
+});
 
 // ---------- Gigi chatbot ----------
 const fab = $('#chat-fab');
@@ -193,15 +246,31 @@ function toggleMenu(open = !dock.classList.contains('open')) {
   fab.setAttribute('aria-expanded', String(open));
 }
 function openChat(open = panel.hidden) {
-  panel.hidden = !open;
+  if (!open) {
+    if (panel.hidden || panel.classList.contains('closing')) return;
+    if (reduceMotion) { panel.hidden = true; return; }
+    panel.classList.add('closing');
+    const finish = () => {
+      if (!panel.classList.contains('closing')) return;
+      panel.hidden = true;
+      panel.classList.remove('closing');
+    };
+    // Only the panel's own exit animation counts (message/typing animations bubble up too).
+    const onEnd = (e) => { if (e.target === panel) { panel.removeEventListener('animationend', onEnd); finish(); } };
+    panel.addEventListener('animationend', onEnd);
+    setTimeout(finish, 320); // fallback: matches the .28s chat-out animation
+    return;
+  }
+  panel.classList.remove('closing');
+  panel.hidden = false;
   if (open) {
     toggleMenu(false);
-    if (!log.children.length) addMsg('model', `Hi, I'm Gigi 🐝 the Gemini Campus Club mascot! I can answer common questions about the club.`, false);
+    if (!log.children.length) addMsg('model', `Hi, I'm Gigi, the Gemini Campus Club mascot! I can answer common questions about the club.`, false);
     input.focus();
   }
 }
 // Tapping Gigi fans out the shortcuts; if the chat is open, it closes everything instead.
-fab.addEventListener('click', () => { if (!panel.hidden) openChat(false); else toggleMenu(); });
+fab.addEventListener('click', () => { replay(fab, 'hop'); if (!panel.hidden) openChat(false); else toggleMenu(); });
 $('#open-chat').addEventListener('click', () => openChat(true));
 document.addEventListener('click', (e) => { if (!dock.contains(e.target)) toggleMenu(false); });
 $('#chat-close').addEventListener('click', () => openChat(false));
@@ -254,7 +323,7 @@ function localAnswer(q) {
   if (has('free gemini', 'gemini free', 'gemini for free', 'get gemini', 'ai pro', 'pro plan', 'discount', 'student offer', 'perk')) {
     return `${club.studentOffer.description} Claim it here: ${club.studentOffer.url}`;
   }
-  if (has('gigi', 'mascot', 'bee', 'who are you', 'your name')) return `That's me! ${club.mascot} Buzz buzz.`;
+  if (has('gigi', 'mascot', 'who are you', 'your name')) return `That's me! ${club.mascot}`;
   if (has('notebooklm', 'notebook lm')) return 'NotebookLM is now officially called Gemini Notebook! Load your lecture slides and readings, then get study guides, quizzes, and Audio Overviews. We have a whole workshop on it.';
   if (has('backed', 'google support', 'affiliated', 'official club')) return `Yes! ${club.short} @ Georgia Tech is backed by Google and run by GT's Google Student Ambassadors.`;
   if (has('partner', 'collab', 'sponsor', 'custom')) return faq('Can my org');
