@@ -12,6 +12,7 @@ document.addEventListener('click', (e) => {
   else if (a.closest('.gigi-action')) track('gigi_shortcut', { target: a.dataset.label });
   else if (a.closest('#socials')) track('social_click', { network: a.textContent });
 });
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const replay = (el, cls) => { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); };
 
 const club = await fetch('club.json').then((r) => r.json());
@@ -54,11 +55,25 @@ const products = [
 const icons = (hidden) => products.map(([name, path]) =>
   `<img src="${gstatic(path)}" alt="${hidden ? '' : name}" ${hidden ? 'aria-hidden="true"' : ''} width="40" height="40" loading="eager" />`).join('');
 $('#pc-track').innerHTML = icons(false) + icons(true); // doubled for a seamless loop
-$('#pc-toggle').addEventListener('click', (e) => {
-  const paused = $('#product-carousel').classList.toggle('paused');
-  e.currentTarget.setAttribute('aria-pressed', String(paused));
-  e.currentTarget.setAttribute('aria-label', paused ? 'Play animation' : 'Pause animation');
-});
+// Driven from JS rather than a CSS animation so it keeps moving on phones
+// (iOS Reduce Motion / Low Power Mode can freeze CSS animations); reduced-motion users get a gentler pace.
+const pcTrack = $('#pc-track');
+let loopWidth = 0;
+const measure = () => {
+  const imgs = pcTrack.querySelectorAll('img');
+  loopWidth = imgs[products.length].offsetLeft - imgs[0].offsetLeft; // one full set incl. gap
+};
+measure();
+addEventListener('resize', measure);
+let offset = 0, last = performance.now();
+const speed = reduceMotion ? 12 : 30; // px per second
+(function tick(now) {
+  const dt = Math.min(now - last, 64) / 1000; // clamp so a backgrounded tab doesn't jump
+  last = now;
+  offset = (offset + speed * dt) % (loopWidth || 1);
+  pcTrack.style.transform = `translate3d(${-offset}px, 0, 0)`;
+  requestAnimationFrame(tick);
+})(last);
 
 // ---------- Hero prompt typewriter ----------
 const heroPrompts = [
@@ -68,7 +83,6 @@ const heroPrompts = [
   'Find every deadline in my Drive for this week',
   'Plan my finals week around my Calendar',
 ];
-const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 async function typeLoop(el, lines) {
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
   if (reduceMotion) { el.textContent = lines[0]; return; }
@@ -88,9 +102,12 @@ chips.innerHTML = club.integrations.map((t, i) =>
   `<button class="chip" role="tab" data-i="${i}" style="--c:${colorVar(t.color)}" aria-selected="false"><img src="${t.icon}" alt="" width="20" height="20" />${esc(t.product)}</button>`
 ).join('');
 let typing = 0;
-function selectTool(i) {
+function selectTool(i, smooth = true) {
   const t = club.integrations[i];
   chips.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-selected', String(+c.dataset.i === i)));
+  // On phones the chips are a sideways-scrolling row; keep the selected one in view (without scrolling the page).
+  const sel = chips.querySelector(`.chip[data-i="${i}"]`);
+  if (chips.scrollWidth > chips.clientWidth) chips.scrollTo({ left: sel.offsetLeft - chips.clientWidth / 2 + sel.offsetWidth / 2, behavior: smooth ? 'smooth' : 'instant' });
   card.style.setProperty('--c', colorVar(t.color));
   $('#tool-badge').innerHTML = `<img src="${t.icon}" alt="" />`;
   $('#tool-name').textContent = t.product;
@@ -113,7 +130,7 @@ chips.addEventListener('click', (e) => {
   const chip = e.target.closest('.chip');
   if (chip) selectTool(+chip.dataset.i);
 });
-selectTool(Math.max(0, club.integrations.findIndex((t) => t.product === 'Gemini Notebook')));
+selectTool(Math.max(0, club.integrations.findIndex((t) => t.product === 'Gemini Notebook')), false);
 
 // ---------- Events ----------
 const today = new Date(new Date().toDateString());
@@ -213,7 +230,7 @@ navLinks.forEach((a) => { const sec = document.querySelector(a.hash); if (sec) s
 
 // ---------- Material-style ripple on buttons ----------
 document.addEventListener('pointerdown', (e) => {
-  const el = e.target.closest('.btn, .chip, .socials a, .pc-toggle, .chat-suggest button');
+  const el = e.target.closest('.btn, .chip, .socials a, .chat-suggest button');
   if (!el || reduceMotion) return;
   const r = el.getBoundingClientRect();
   const size = Math.max(r.width, r.height) * 2;

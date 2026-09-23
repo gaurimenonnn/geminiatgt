@@ -136,21 +136,15 @@ a:hover .arrow { transform: translateX(3px); }
 }
 @keyframes spin { to { rotate: 360deg; } }
 
-.product-carousel { display: flex; align-items: center; gap: 24px; width: min(980px, 100%); margin-bottom: 56px; }
-.pc-viewport { flex: 1; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
-.pc-track { display: flex; gap: 76px; width: max-content; padding: 4px 38px; animation: scroll 36s linear infinite; }
+.product-carousel { width: min(980px, 100%); margin-bottom: 56px; }
+.pc-viewport {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.pc-track { display: flex; gap: 76px; width: max-content; padding: 4px 38px; will-change: transform; }
 .pc-track img { width: 40px; height: 40px; flex: none; transition: transform .3s var(--ease-spring); }
 .pc-track img:hover { transform: scale(1.2) translateY(-2px); }
-.product-carousel.paused .pc-track { animation-play-state: paused; }
-.pc-toggle {
-  flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
-  background: var(--grey-100); color: var(--head); border: 1px solid var(--outline);
-  transition: box-shadow .2s ease;
-}
-.pc-toggle:hover { box-shadow: var(--lift); }
-.pc-toggle svg { width: 20px; height: 20px; }
-.pc-toggle .i-play, .paused .pc-toggle .i-pause { display: none; }
-.paused .pc-toggle .i-play { display: block; }
 @keyframes scroll { to { transform: translateX(-50%); } }
 
 .hero-inner { max-width: 880px; }
@@ -341,7 +335,7 @@ a:hover .arrow { transform: translateX(3px); }
   font-size: 14.5px; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--outline);
   text-decoration: none; color: var(--head); transition: box-shadow .2s ease;
 }
-.socials a, .pc-toggle { position: relative; overflow: hidden; }
+.socials a { position: relative; overflow: hidden; }
 .socials a:hover { box-shadow: var(--lift); }
 .socials .soon { color: var(--body); border-style: dashed; cursor: default; }
 .fine { color: var(--body); font-size: 13.5px; max-width: 620px; }
@@ -528,16 +522,52 @@ html.intro-on { --enter: 2s; }
   .event-date .d { font-size: 34px; }
   .cal-btn { grid-column: 2; justify-self: start; }
   .coming-soon { padding: 32px 24px; }
-  .product-carousel { gap: 12px; margin-bottom: 40px; }
-  .pc-track { gap: 48px; padding: 4px 24px; }
+  .product-carousel { width: calc(100% + 32px); margin-inline: -16px; margin-bottom: 40px; }
+  .pc-track { gap: 44px; padding: 4px 22px; }
   .pc-track img { width: 34px; height: 34px; }
   .lead { flex-direction: column; text-align: center; }
   .lead-facts { justify-content: center; }
   .prompt-bar { left: 16px; translate: none; width: calc(100% - 100px); bottom: 24px; }
-  .chat { right: 16px; bottom: 108px; }
+  .chat {
+    left: 12px; right: 12px; width: auto; bottom: 100px;
+    height: min(560px, calc(100svh - 130px));
+  }
+  /* Use-case chips: one swipeable row instead of five wrapped rows */
+  .tool-chips {
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+    margin-inline: -16px; padding: 4px 16px 8px; scroll-padding-inline: 16px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 32px), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 32px), transparent);
+  }
+  .tool-chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; }
+  .tool-card { min-height: 0; padding: 26px 24px; }
+  .chat-form input { font-size: 16px; } /* 16px+ stops iOS from zooming the page on focus */
+  .chat-suggest button { font-size: 14px; padding: 8px 14px; }
+  /* Cheaper, snappier motion on phones: skip blur filters */
+  .reveal { transform: translateY(20px); filter: none; transition: opacity .6s var(--ease-emph), transform .7s var(--ease-emph); }
+  @keyframes chat-in { from { opacity: 0; transform: scale(.94) translateY(16px); } }
+  @keyframes chat-out { to { opacity: 0; transform: scale(.96) translateY(12px); } }
+  .hero { padding-top: 56px; }
   .gigi-dock { right: 12px; bottom: 12px; }
   .gigi-fab { width: 72px; height: 72px; }
 }
+/* Touch screens: hover styles stick after a tap, so drop hover shadows/lifts;
+   taps get the ripple + press-in instead. */
+@media (hover: none) {
+  * { -webkit-tap-highlight-color: transparent; }
+  .btn:hover, .chip:hover, .eyebrow:hover, .socials a:hover, .chat-suggest button:hover,
+  .gigi-action:hover, .chat-form button:hover:not(:disabled), .offer:hover .offer-btn { box-shadow: none; }
+  .btn-primary:hover, .offer:hover .offer-btn { background: var(--g-blue); }
+  .btn-ghost:hover, .chat-suggest button:hover { background: var(--surface); }
+  .chip:not([aria-selected="true"]):hover { background: var(--surface); }
+  .chip:hover img, .pc-track img:hover, .brand:hover .brand-logo, .gigi-action:hover img, .gigi-action:hover svg,
+  .gigi-fab:not([aria-expanded="true"]):hover img, .offer:hover .offer-spark { transform: none; }
+  .pillar.in:hover { transform: none; }
+  .gigi-action::after { display: none; }
+  .btn:active, .chip:active, .gigi-action:active, .chat-suggest button:active { transform: scale(.96); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal { opacity: 1; transform: none; }
