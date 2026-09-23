@@ -515,7 +515,14 @@ html.intro-on { --enter: 2s; }
   .offer-spark { width: 56px; height: 56px; }
   .join-gigi { width: 76px; }
   .join { padding: 56px 20px 64px; }
-  .footer-logo { height: 52px; }
+  /* Footer on phones: everything centered, logo larger */
+  .footer-top, .footer-bottom { flex-direction: column; align-items: center; text-align: center; }
+  .footer-brand { flex-direction: column; gap: 10px; }
+  .footer-logo { height: 84px; }
+  .footer-at { font-size: 22px; }
+  .socials { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+  .socials a, .socials span { text-align: center; padding: 10px 14px; }
+  .fine { max-width: none; }
   .pillars { grid-template-columns: 1fr; }
   .pill-dot { margin-bottom: 24px; }
   .event { grid-template-columns: 64px 1fr; gap: 16px; }
@@ -527,7 +534,8 @@ html.intro-on { --enter: 2s; }
   .pc-track img { width: 34px; height: 34px; }
   .lead { flex-direction: column; text-align: center; }
   .lead-facts { justify-content: center; }
-  .prompt-bar { left: 16px; translate: none; width: calc(100% - 100px); bottom: 24px; }
+  .prompt-bar { display: none; } /* the typing prompt is desktop-only */
+  .hero { padding-bottom: 72px; min-height: calc(100svh - 64px - 40px); }
   .chat {
     left: 12px; right: 12px; width: auto; bottom: 100px;
     height: min(560px, calc(100svh - 130px));
