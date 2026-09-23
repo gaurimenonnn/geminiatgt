@@ -1,0 +1,19 @@
+{
+  "name": "geminiatgt",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Website for the Gemini campus club at Georgia Tech",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.3",
+    "express": "^5.2.1"
+  }
+}

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gemini @ Georgia Tech</title>
+  <meta name="description" content="Georgia Tech's Gemini campus club: hands-on workshops for Gemini, NotebookLM, and Gemini across Google Workspace." />
+  <link rel="icon" href="assets/sparkle.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Reusable Gemini-style four-point sparkle -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="gem-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#4285F4" />
+        <stop offset=".55" stop-color="#9B72CB" />
+        <stop offset="1" stop-color="#D96570" />
+      </linearGradient>
+      <symbol id="sparkle" viewBox="0 0 24 24">
+        <path d="M12 0C12.6 6.4 17.6 11.4 24 12 17.6 12.6 12.6 17.6 12 24 11.4 17.6 6.4 12.6 0 12 6.4 11.4 11.4 6.4 12 0Z" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="nav" id="top">
+    <a href="#top" class="brand" aria-label="Gemini at Georgia Tech home">
+      <!-- LOGO: swap this svg for <img src="assets/logo.svg" alt="Gemini @ GT"> once the logo is ready -->
+      <svg class="brand-mark"><use href="#sparkle" fill="url(#gem-grad)" /></svg>
+      <span>Gemini <b>@</b> GT</span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#tools">Use cases</a>
+      <a href="#events">Events</a>
+      <a href="#team">Team</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#join" class="btn btn-small btn-dark">Join</a>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="aura" aria-hidden="true"></div>
+      <div class="grid-bg" aria-hidden="true"></div>
+      <svg class="hero-spark" aria-hidden="true"><use href="#sparkle" fill="url(#gem-grad)" /></svg>
+
+      <div class="hero-inner">
+        <p class="eyebrow">
+          <span class="dots"><i class="b"></i><i class="r"></i><i class="y"></i><i class="g"></i></span>
+          Georgia Tech's Gemini campus club
+        </p>
+        <h1>Gemini, <span class="grad-text">everywhere</span><br />you already work.</h1>
+        <p class="lede" data-bind="tagline"></p>
+        <div class="hero-cta">
+          <a href="#events" class="btn btn-primary">See upcoming workshops</a>
+          <button class="btn btn-ghost" data-open-chat>
+            <svg class="icon"><use href="#sparkle" fill="url(#gem-grad)" /></svg>
+            Ask Gem about the club
+          </button>
+        </div>
+      </div>
+
+      <div class="prompt-bar" aria-hidden="true">
+        <svg class="icon"><use href="#sparkle" fill="url(#gem-grad)" /></svg>
+        <span class="prompt-text" id="hero-prompt"></span><span class="caret"></span>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track" id="marquee"></div>
+    </div>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="section-head">
+        <p class="kicker">01 · About</p>
+        <h2>Less hype. More <span class="grad-text">"wait, it can do that?"</span></h2>
+        <p class="sub" data-bind="mission"></p>
+      </div>
+      <div class="pillars">
+        <article class="pillar" style="--c: var(--blue)">
+          <span class="pill-dot"></span>
+          <h3>Hands-on workshops</h3>
+          <p>Laptops open, every session. You leave with a workflow you'll actually use tomorrow.</p>
+        </article>
+        <article class="pillar" style="--c: var(--red)">
+          <span class="pill-dot"></span>
+          <h3>Real student use cases</h3>
+          <p>Studying, research, club ops, recruiting. We skip the demos and use your real work.</p>
+        </article>
+        <article class="pillar" style="--c: var(--yellow)">
+          <span class="pill-dot"></span>
+          <h3>Across the Google suite</h3>
+          <p>Gmail, Docs, Sheets, Drive, NotebookLM, and more, all connected by Gemini.</p>
+        </article>
+        <article class="pillar" style="--c: var(--green)">
+          <span class="pill-dot"></span>
+          <h3>Build nights</h3>
+          <p>Prototype your own app with AI Studio and the Gemini API. Beginners welcome.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- USE CASES -->
+    <section class="section" id="tools">
+      <div class="section-head">
+        <p class="kicker">02 · Use cases</p>
+        <h2>One assistant. Your whole toolkit.</h2>
+        <p class="sub">Pick a tool to see the kind of thing we'll build together in a workshop.</p>
+      </div>
+      <div class="tools">
+        <div class="tool-chips" id="tool-chips" role="tablist" aria-label="Google products"></div>
+        <div class="tool-card" id="tool-card" aria-live="polite">
+          <div class="tool-card-top">
+            <span class="tool-badge" id="tool-badge"></span>
+            <span class="tool-meta">Gemini in <b id="tool-name"></b></span>
+          </div>
+          <p class="tool-usecase" id="tool-usecase"></p>
+          <div class="shimmer-lines" aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENTS -->
+    <section class="section" id="events">
+      <div class="section-head">
+        <p class="kicker">03 · Events</p>
+        <h2>Upcoming workshops</h2>
+        <p class="sub">Free, open to every major, pizza usually involved. Hit <b>+ Calendar</b> to save one to Google Calendar.</p>
+      </div>
+      <ol class="events" id="events-list"></ol>
+    </section>
+
+    <!-- TEAM -->
+    <section class="section" id="team">
+      <div class="section-head">
+        <p class="kicker">04 · Team</p>
+        <h2>Who's leading the club</h2>
+        <p class="sub">Run by Georgia Tech's Google Student Ambassadors.</p>
+      </div>
+      <div class="leads" id="leads"></div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="section-head">
+        <p class="kicker">05 · FAQ</p>
+        <h2>Good questions</h2>
+        <p class="sub">Or skip the reading and <button class="link" data-open-chat>ask Gem</button>.</p>
+      </div>
+      <div class="faq" id="faq-list"></div>
+    </section>
+
+    <!-- JOIN -->
+    <section class="section" id="join">
+      <div class="join">
+        <svg class="join-spark" aria-hidden="true"><use href="#sparkle" fill="#fff" /></svg>
+        <h2>Come build with us.</h2>
+        <p data-bind="membership"></p>
+        <div class="hero-cta">
+          <!-- TODO: replace with the real mailing list / GT Engage link -->
+          <a class="btn btn-light" id="join-link" href="#">Join the mailing list</a>
+          <a class="btn btn-outline-light" id="email-link" href="#">Email us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="brand">
+      <svg class="brand-mark"><use href="#sparkle" fill="url(#gem-grad)" /></svg>
+      <span>Gemini <b>@</b> GT</span>
+    </div>
+    <p class="fine">A student-run organization at the Georgia Institute of Technology. Gemini and Google are trademarks of Google LLC.</p>
+    <span class="dots"><i class="b"></i><i class="r"></i><i class="y"></i><i class="g"></i></span>
+  </footer>
+
+  <!-- GEM CHATBOT -->
+  <button class="chat-fab" id="chat-fab" aria-label="Chat with Gem" aria-expanded="false" aria-controls="chat">
+    <svg><use href="#sparkle" fill="#fff" /></svg>
+  </button>
+  <section class="chat" id="chat" role="dialog" aria-label="Chat with Gem" hidden>
+    <header class="chat-head">
+      <div class="chat-avatar"><svg><use href="#sparkle" fill="url(#gem-grad)" /></svg></div>
+      <div>
+        <p class="chat-title">Gem</p>
+        <p class="chat-status" id="chat-status">Club assistant · powered by Gemini</p>
+      </div>
+      <button class="chat-close" id="chat-close" aria-label="Close chat">×</button>
+    </header>
+    <div class="chat-log" id="chat-log" aria-live="polite"></div>
+    <div class="chat-suggest" id="chat-suggest"></div>
+    <form class="chat-form" id="chat-form">
+      <input id="chat-input" autocomplete="off" maxlength="500" placeholder="Ask about events, joining, NotebookLM…" aria-label="Message Gem" />
+      <button type="submit" aria-label="Send">
+        <svg viewBox="0 0 24 24"><path d="M3 20.5 21 12 3 3.5l.01 6.6L15 12 3.01 13.9z" fill="currentColor" /></svg>
+      </button>
+    </form>
+  </section>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
