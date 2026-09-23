@@ -70,10 +70,7 @@
       </div>
 
       <div class="hero-inner">
-        <a class="eyebrow" href="#free-gemini">
-          <span class="dots"><i class="b"></i><i class="r"></i><i class="y"></i><i class="g"></i></span>
-          Students: get Gemini free for a year <span class="arrow">→</span>
-        </a>
+        <a class="eyebrow" href="#free-gemini">Get free Gemini for students for a year</a>
         <h1>Gemini, <span class="grad-text">everywhere</span><br />you already work.</h1>
         <p class="lede" data-bind="tagline"></p>
         <div class="hero-cta">
@@ -181,27 +178,33 @@
     <!-- JOIN -->
     <section class="section" id="join">
       <div class="join">
-        <svg class="join-spark" aria-hidden="true"><use href="#sparkle" fill="#fff" /></svg>
         <img class="join-gigi" src="assets/gigi-buzz.png" alt="Gigi, the club mascot" />
-        <h2>Come build with us.</h2>
+        <h2>Come build <span class="grad-text">with us.</span></h2>
         <p data-bind="membership"></p>
         <div class="hero-cta">
-          <a class="btn btn-light" id="join-link" href="#" target="_blank" rel="noopener">Get involved</a>
-          <a class="btn btn-outline-light" id="insta-link" href="#" target="_blank" rel="noopener">Instagram</a>
-          <a class="btn btn-outline-light" id="email-link" href="#">Email us</a>
+          <a class="btn btn-primary" id="join-link" href="#" target="_blank" rel="noopener">Get involved</a>
+          <a class="btn btn-ghost" id="insta-link" href="#" target="_blank" rel="noopener">Instagram</a>
+          <a class="btn btn-ghost" id="email-link" href="#">Email us</a>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="footer-brand">
-      <img class="footer-logo" src="assets/logo-text-black.png" alt="Gemini Campus Club" />
-      <span class="footer-at">@ Georgia Tech</span>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img class="footer-logo" src="assets/logo-text-black.png" alt="Gemini Campus Club" />
+        <span class="footer-at">@ Georgia Tech</span>
+      </div>
+      <nav class="socials" id="socials" aria-label="Club links"></nav>
     </div>
-    <nav class="socials" id="socials" aria-label="Club links"></nav>
-    <p class="fine">Gemini Campus Club @ Georgia Tech is a student-run organization at the Georgia Institute of Technology. Gemini and Google are trademarks of Google LLC.</p>
-    <span class="dots"><i class="b"></i><i class="r"></i><i class="y"></i><i class="g"></i></span>
+    <div class="footer-bottom">
+      <p class="backed">
+        <img src="https://www.gstatic.com/marketing-cms/assets/images/a8/cd/13111d7c4969a9969e67ec9ba24e/logo-googleg-gradient-color-2x-web-96dp.webp=s48-fcrop64=1,00000000ffffffff-rw" alt="" width="20" height="20" />
+        Backed by Google
+      </p>
+      <p class="fine">Gemini Campus Club @ Georgia Tech is a student-run organization at the Georgia Institute of Technology, backed by Google. Gemini and Google are trademarks of Google LLC.</p>
+    </div>
   </footer>
 
   <!-- GIGI CHATBOT -->
@@ -210,9 +213,8 @@
       <a class="gigi-action" role="menuitem" href="https://gemini.google.com/app" target="_blank" rel="noopener" data-label="Open Gemini">
         <img src="assets/gemini-spark.png" alt="Gemini" />
       </a>
-      <!-- Drop the official icon at assets/gemini-notebook.png; the placeholder shows until then -->
-      <a class="gigi-action" role="menuitem" href="https://notebooklm.google.com/" target="_blank" rel="noopener" data-label="Open Gemini Notebook">
-        <img src="assets/gemini-notebook.png" alt="Gemini Notebook" onerror="this.onerror=null;this.src='assets/gemini-notebook-placeholder.svg'" />
+      <a class="gigi-action" role="menuitem" href="https://notebook.google/" target="_blank" rel="noopener" data-label="Open Gemini Notebook">
+        <img src="assets/gemini-notebook.png" alt="Gemini Notebook" />
       </a>
       <button class="gigi-action" role="menuitem" type="button" id="open-chat" data-label="Chat with Gigi">
         <svg viewBox="0 0 24 24" aria-label="Chat"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z" fill="currentColor" /></svg>

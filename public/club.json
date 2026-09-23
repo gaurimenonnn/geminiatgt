@@ -2,7 +2,7 @@
   "name": "Gemini Campus Club @ Georgia Tech",
   "short": "Gemini Campus Club",
   "tagline": "Hands-on workshops for using Gemini across the tools you already live in.",
-  "mission": "We're the Gemini Campus Club at Georgia Tech, run by GT's Google Student Ambassadors. We host hands-on workshops and events that show students how to use Gemini, Gemini Notebook, and Gemini's integrations across Google Workspace for real student work: studying, research, projects, clubs, and recruiting.",
+  "mission": "We're the Gemini Campus Club at Georgia Tech, backed by Google and run by GT's Google Student Ambassadors. We host hands-on workshops and events that show students how to use Gemini, Gemini Notebook, and Gemini's integrations across Google Workspace for real student work: studying, research, projects, clubs, and recruiting.",
   "membership": "Membership is free and open to every Georgia Tech student, whatever your major or year. You don't need any coding experience, just a laptop and a Google account. Find all our links on Linktree and follow @geminiatgt on Instagram for event updates.",
   "joinUrl": "https://linktr.ee/geminiatgt",
   "contactEmail": "geminicampusclub.gt@gmail.com",
@@ -111,6 +111,7 @@
     "url": "https://gemini.google/students/"
   },
   "instagramHandle": "@geminiatgt",
+  "linkedin": "",
   "linktree": "https://linktr.ee/geminiatgt",
   "discord": ""
 }

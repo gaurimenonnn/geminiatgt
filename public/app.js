@@ -10,12 +10,15 @@ document.querySelectorAll('[data-bind]').forEach((el) => { el.textContent = club
 $('#join-link').href = club.joinUrl;
 $('#email-link').href = `mailto:${club.contactEmail}`;
 $('#insta-link').href = club.instagram;
+// Footer buttons. LinkedIn and Discord stay as "coming soon" placeholders until club.json has their URLs.
+const social = (label, url, external = true) => url
+  ? `<a href="${url}"${external ? ' target="_blank" rel="noopener"' : ''}>${label}</a>`
+  : `<span class="soon" title="Coming soon">${label}</span>`;
 $('#socials').innerHTML = [
-  `<a href="${club.instagram}" target="_blank" rel="noopener">Instagram ${esc(club.instagramHandle)}</a>`,
-  `<a href="${club.linktree}" target="_blank" rel="noopener">Linktree</a>`,
-  `<a href="mailto:${club.contactEmail}">${esc(club.contactEmail)}</a>`,
-  // Discord placeholder until club.discord has an invite link
-  club.discord ? `<a href="${club.discord}" target="_blank" rel="noopener">Discord</a>` : `<span class="soon">Discord · coming soon</span>`,
+  social('Instagram', club.instagram),
+  social('LinkedIn', club.linkedin),
+  social('Gmail', `mailto:${club.contactEmail}`, false),
+  social('Discord', club.discord),
 ].join('');
 document.querySelectorAll('[data-bind-offer]').forEach((el) => { el.textContent = club.studentOffer[el.dataset.bindOffer]; });
 $('#offer-link').href = club.studentOffer.url;
@@ -141,7 +144,7 @@ $('#events-list').innerHTML = upcoming.length
 if (upcoming.length) $('#events-list').innerHTML = `<ol class="events">${$('#events-list').innerHTML}</ol>`;
 else $('#events-list').innerHTML = `<div class="coming-soon reveal">
     <div>
-      <span class="soon-pill"><i></i>Coming soon</span>
+      <span class="soon-pill">Coming soon</span>
       <h3>Our first workshops are on the way.</h3>
       <p>We're lining up hands-on sessions on Gemini, Gemini Notebook, and Gemini in Workspace. Follow ${esc(club.instagramHandle)} so you hear the moment dates drop.</p>
     </div>
@@ -253,6 +256,7 @@ function localAnswer(q) {
   }
   if (has('gigi', 'mascot', 'bee', 'who are you', 'your name')) return `That's me! ${club.mascot} Buzz buzz.`;
   if (has('notebooklm', 'notebook lm')) return 'NotebookLM is now officially called Gemini Notebook! Load your lecture slides and readings, then get study guides, quizzes, and Audio Overviews. We have a whole workshop on it.';
+  if (has('backed', 'google support', 'affiliated', 'official club')) return `Yes! ${club.short} @ Georgia Tech is backed by Google and run by GT's Google Student Ambassadors.`;
   if (has('partner', 'collab', 'sponsor', 'custom')) return faq('Can my org');
   // A question naming a specific event ("when is build night?") gets that event.
   const generic = new Set(['gemini', 'workshop', 'event', 'your', 'with', 'when', 'what']);
@@ -273,6 +277,7 @@ function localAnswer(q) {
   if (has('join', 'member', 'sign up', 'signup', 'mailing', 'involved')) return `${club.membership} Start here: ${club.linktree}`;
   if (has('discord', 'server')) return club.discord ? `Join our Discord: ${club.discord}` : `Our Discord is coming soon! Follow ${club.instagramHandle} on Instagram to hear when it launches.`;
   if (has('instagram', 'insta', 'social') || /\big\b/.test(s)) return `Follow us on Instagram at ${club.instagramHandle}: ${club.instagram}`;
+  if (has('linkedin')) return club.linkedin ? `Find us on LinkedIn: ${club.linkedin}` : `Our LinkedIn page is coming soon! For now, follow ${club.instagramHandle} on Instagram.`;
   if (has('linktree', 'links')) return `All our links are here: ${club.linktree}`;
   if (has('contact', 'email', 'reach', 'message')) return `Email us at ${club.contactEmail}, or DM ${club.instagramHandle} on Instagram. We'd love to hear from you!`;
   const tool = club.integrations.find((t) => s.includes(t.product.toLowerCase()));
