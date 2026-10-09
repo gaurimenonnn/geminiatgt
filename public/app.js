@@ -8,8 +8,8 @@ document.addEventListener('click', (e) => {
   const a = e.target.closest('a');
   if (!a) return;
   if (a.closest('#free-gemini')) track('student_offer_click');
-  else if (a.id === 'join-link') track('get_involved_click');
-  else if (a.id === 'discord-link') track('social_click', { network: 'Discord' });
+  else if (a.id === 'nav-join' || a.id === 'discord-link') track('join_discord_click', { from: a.id === 'nav-join' ? 'nav' : 'join_section' });
+  else if (a.id === 'linktree-link') track('social_click', { network: 'Linktree' });
   else if (a.closest('.gigi-action')) track('gigi_shortcut', { target: a.dataset.label });
   else if (a.closest('#socials')) track('social_click', { network: a.textContent });
 });
@@ -20,7 +20,8 @@ const club = await fetch('club.json').then((r) => r.json());
 
 // ---------- Static text ----------
 document.querySelectorAll('[data-bind]').forEach((el) => { el.textContent = club[el.dataset.bind]; });
-$('#join-link').href = club.joinUrl;
+$('#nav-join').href = club.joinUrl;
+$('#linktree-link').href = club.linktree;
 $('#email-link').href = `mailto:${club.contactEmail}`;
 $('#insta-link').href = club.instagram;
 $('#discord-link').href = club.discord;
@@ -374,7 +375,7 @@ function localAnswer(q) {
   if (has('bring', 'laptop', 'need')) return faq('What should');
   if (has('cost', 'free', 'pay', 'price', 'dues')) return faq('How much');
   if (has('often', 'frequen', 'every week')) return faq('How often');
-  if (has('join', 'member', 'sign up', 'signup', 'mailing', 'involved')) return `${club.membership} Start here: ${club.linktree}`;
+  if (has('join', 'member', 'sign up', 'signup', 'mailing', 'involved')) return `Membership is free and open to every Georgia Tech student. To get started, join our Discord: ${club.discord}`;
   if (has('discord', 'server')) return club.discord ? `Join our Discord: ${club.discord}` : `Our Discord is coming soon! Follow ${club.instagramHandle} on Instagram to hear when it launches.`;
   if (has('instagram', 'insta', 'social') || /\big\b/.test(s)) return `Follow us on Instagram at ${club.instagramHandle}: ${club.instagram}`;
   if (has('linkedin')) return club.linkedin ? `Find us on LinkedIn: ${club.linkedin}` : `Our LinkedIn page is coming soon! For now, follow ${club.instagramHandle} on Instagram.`;
