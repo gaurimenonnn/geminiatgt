@@ -345,7 +345,9 @@ a:hover .arrow { transform: translateX(3px); }
 .gigi-dock {
   position: fixed; right: 20px; bottom: 16px; z-index: 90;
   display: flex; flex-direction: column; align-items: center; gap: 12px;
+  pointer-events: none; /* only Gigi and the open shortcut buttons take taps */
 }
+.gigi-fab { pointer-events: auto; }
 .gigi-fab {
   width: 84px; height: 84px; padding: 0; border: 0; background: none;
   filter: drop-shadow(0 2px 2px rgba(60, 64, 67, .18));
@@ -467,6 +469,7 @@ a:hover .arrow { transform: translateX(3px); }
 html.intro-lock { overflow: hidden; }
 html.intro-on .intro {
   position: fixed; inset: 0; z-index: 200; display: grid; place-items: center;
+  pointer-events: none; /* never block taps, even if the fade-out animation stalls */
   background: #fff;
   animation: intro-out .7s cubic-bezier(.4, 0, .2, 1) 1.9s forwards;
 }
