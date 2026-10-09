@@ -9,6 +9,7 @@ document.addEventListener('click', (e) => {
   if (!a) return;
   if (a.closest('#free-gemini')) track('student_offer_click');
   else if (a.id === 'join-link') track('get_involved_click');
+  else if (a.id === 'discord-link') track('social_click', { network: 'Discord' });
   else if (a.closest('.gigi-action')) track('gigi_shortcut', { target: a.dataset.label });
   else if (a.closest('#socials')) track('social_click', { network: a.textContent });
 });
@@ -22,6 +23,7 @@ document.querySelectorAll('[data-bind]').forEach((el) => { el.textContent = club
 $('#join-link').href = club.joinUrl;
 $('#email-link').href = `mailto:${club.contactEmail}`;
 $('#insta-link').href = club.instagram;
+$('#discord-link').href = club.discord;
 // Footer buttons. LinkedIn and Discord stay as "coming soon" placeholders until club.json has their URLs.
 const social = (label, url, external = true) => url
   ? `<a href="${url}"${external ? ' target="_blank" rel="noopener"' : ''}>${label}</a>`
