@@ -13,7 +13,7 @@
       "role": "Google Student Ambassador · Co-lead",
       "major": "Computer Science",
       "year": "3rd year",
-      "photo": "assets/gauri.jpg",
+      "photo": "assets/gauri.jpg?v=2",
       "accent": "blue"
     },
     {
@@ -21,7 +21,7 @@
       "role": "Google Student Ambassador · Co-lead",
       "major": "Biology",
       "year": "3rd year",
-      "photo": "assets/ishita.jpg",
+      "photo": "assets/ishita.jpg?v=3",
       "accent": "red"
     }
   ],
